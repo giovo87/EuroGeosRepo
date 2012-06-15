@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+	<servlet>
+		<servlet-name>eurogeos</servlet-name>
+		<servlet-class>org.example.eurogeos</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>forest</servlet-name>
+		<servlet-class>org.example.servlets.ForestServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>eurogeos</servlet-name>
+		<url-pattern>/eurogeos</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>forest</servlet-name>
+		<url-pattern>/forest</url-pattern>
+	</servlet-mapping>
+	<persistence-unit-ref>
+		<persistence-unit-ref-name>src/main/resources/eurogeos-unit</persistence-unit-ref-name>
+		<persistence-unit-name>eurogeos-unit</persistence-unit-name>
+	</persistence-unit-ref>
+</web-app>
