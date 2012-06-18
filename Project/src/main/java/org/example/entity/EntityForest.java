@@ -1,11 +1,8 @@
 package org.example.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Table;
+import javax.persistence.*;
+
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  * @author Gabriele Giovenco
@@ -16,7 +13,9 @@ import javax.persistence.Table;
 @Table(name="foresttable")
 public class EntityForest {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GenericGenerator(name="kaugen" , strategy="increment")
+    @GeneratedValue(generator="kaugen")
+    @Column(name="id")
     private int id;
     /**
      * @return the id

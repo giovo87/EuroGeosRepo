@@ -1,5 +1,8 @@
 package org.example.dao;
 
+
+import java.util.List;
+
 import org.example.entity.EntityForest;
 
 
@@ -9,6 +12,7 @@ import org.example.entity.EntityForest;
  */
 public interface EntityForestDAO {
     public void insert(EntityForest ef);
-    public void update(EntityForest ef);
-    public void delete(EntityForest ef);
+    public void update(EntityForest ef, int id);
+    public void delete(int id);
+    public List<EntityForest> getDataUser(String user);
 }
