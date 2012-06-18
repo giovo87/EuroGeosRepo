@@ -1,12 +1,24 @@
-<h1>EuroGeos WEBAPP!!</h1>
+<!-- Id parameter is auto incremented by the db -->
+<!-- userId is not necessary because it's implicit -->
+
+<!-- Change the GUI whit EXT_JS -->
+<h2>Load User Data</h2>
 <body>
+	<form action="forestUser" method="GET">
+	UserID: <input type="text" name="userid"/>
+	<input type="submit" value="Load user data"/>
+	</form>
+</body>
 
 <!-- Id parameter is auto incremented by the db -->
 <!-- userId is not necessary because it's implicit -->
 
 <!-- Change the GUI whit EXT_JS -->
-	
-	<form action="forest" method="GET">
+<h2>Add new entry</h2>
+<body>
+	<form action="forestEnter" method="GET">
+		UserId: <input type="text" name="userid">
+		<br />
 		Year: <input type="text" name="year">
 		<br />
 		Forest: <input type="text" name="forest" />
@@ -20,5 +32,44 @@
 		Inland water bodies: <input type="text" name="iwb" />
 		<input type="submit" value="Add new entry" />
 	</form>
-	
+</body>
+
+
+<!-- Id parameter is auto incremented by the db -->
+<!-- userId is not necessary because it's implicit -->
+
+<!-- Change the GUI whit EXT_JS -->
+<h2>Update an entry</h2>
+<body>
+	<form action="forestUpdate" method="GET">
+		id: <input type="text" name="id">
+		<br />
+		UserId: <input type="text" name="userid">
+		<br />
+		Year: <input type="text" name="year">
+		<br />
+		Forest: <input type="text" name="forest" />
+		<br />
+		Other wooded land: <input type="text" name="owl" />
+		<br />
+		Other land: <input type="text" name="ol" />
+		<br />
+		Other tree cover: <input type="text" name="otc" />
+		<br />
+		Inland water bodies: <input type="text" name="iwb" />
+		<input type="submit" value="Update entry" />
+	</form>
+</body>
+
+
+<!-- Id parameter is auto incremented by the db -->
+<!-- userId is not necessary because it's implicit -->
+
+<!-- Change the GUI whit EXT_JS -->
+<h2>Cancel entry</h2>
+<body>
+	<form action="forestDelete" method="GET">
+		id: <input type="text" name="id">
+		<input type="submit" value="Cancel entry" />
+	</form>
 </body>
