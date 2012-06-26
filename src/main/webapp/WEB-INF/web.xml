@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+	<servlet>
+	<servlet-name>displayData</servlet-name>
+	<jsp-file>src/main/webapp/displayData.jsp</jsp-file>
+	</servlet>
+	<servlet>
+		<servlet-name>eurogeos</servlet-name>
+		<servlet-class>org.example.eurogeos</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>forestEnter</servlet-name>
+		<servlet-class>org.example.servlets.ForestServletEnter</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>forestDelete</servlet-name>
+		<servlet-class>org.example.servlets.ForestServletDelete</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>forestUpdate</servlet-name>
+		<servlet-class>org.example.servlets.ForestServletUpdate</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>forestUser</servlet-name>
+		<servlet-class>org.example.servlets.ForestServletUser</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>displayData</servlet-name>
+		<url-pattern>/displayData</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>eurogeos</servlet-name>
+		<url-pattern>/eurogeos</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>forestEnter</servlet-name>
+		<url-pattern>/forestEnter</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>forestDelete</servlet-name>
+		<url-pattern>/forestDelete</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>forestUpdate</servlet-name>
+		<url-pattern>/forestUpdate</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>forestUser</servlet-name>
+		<url-pattern>/forestUser</url-pattern>
+	</servlet-mapping>
+	<persistence-unit-ref>
+		<persistence-unit-ref-name>src/main/resources/eurogeos-unit</persistence-unit-ref-name>
+		<persistence-unit-name>eurogeos-unit</persistence-unit-name>
+	</persistence-unit-ref>
+</web-app>

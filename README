@@ -1,5 +1,7 @@
-Repo for EuroGeos webb app
+Repo for EuroGeoss webb app.
 
+The application provides:
 
-
-CIAOCSIAOSICAO
+-a form in order to insert new data in the table
+-a form in order to delete an entry from the table
+-a table that show user's datas
