@@ -1,6 +1,5 @@
 package org.example.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -12,16 +11,21 @@ import javax.persistence.Query;
 import org.example.entity.EntityForest;
 
 /**
+ * @author Gabriele Giovenco
+ *
+ */
+
+/**
  * This is an implementation of the EntityForestDAO interface supporting Postgres DB
  * 
  */
 
 public class EntityForestPostgresDAO implements EntityForestDAO{
     
-    //Annotation
-    //@PersistenceUnit(unitName = "eurogeos-unit")
+    //create the Entity Manager Factory
     private EntityManagerFactory emf;
 
+    //Insert function called from the servlet in order to insert a new record in the DB
     public void insert(EntityForest ef) {
         // TODO Auto-generated method stub
         emf = Persistence.createEntityManagerFactory("eurogeos-unit");
@@ -30,7 +34,8 @@ public class EntityForestPostgresDAO implements EntityForestDAO{
         em.persist(ef);
         em.getTransaction().commit();
     }
-    
+
+    //Get Data User function called from the servlet in order to insert retrieve user's data from the DB
     @SuppressWarnings("unchecked")
     public List<EntityForest> getDataUser(String user) {
         emf = Persistence.createEntityManagerFactory("eurogeos-unit");
@@ -40,6 +45,7 @@ public class EntityForestPostgresDAO implements EntityForestDAO{
         return q.getResultList();
     }
 
+    //Update function called from the servlet in order to update a record in the DB
     public void update(String user, int year, String param, int value) {
         // TODO Auto-generated method stub
         emf = Persistence.createEntityManagerFactory("eurogeos-unit");
@@ -49,12 +55,11 @@ public class EntityForestPostgresDAO implements EntityForestDAO{
         q.setParameter(1, value);
         q.setParameter(2, year);
         q.setParameter(3, user);
-        //q.setParameter(8, ef.getUserId());
         q.executeUpdate();
         em.getTransaction().commit();
     }
 
-    //FIXME: da testare
+    //Delete function called from the servlet in order to delete a record in the DB
     public void delete(String userid, int year) {
         // TODO Auto-generated method stub
         emf = Persistence.createEntityManagerFactory("eurogeos-unit");

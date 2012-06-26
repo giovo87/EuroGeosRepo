@@ -1,7 +1,5 @@
 package org.example.servlets;
 
-
-
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.example.dao.EntityForestDAO;
 import org.example.dao.EntityForestPostgresDAO;
 import org.example.entity.EntityForest;
+
+/**
+ * @author Gabriele Giovenco
+ *
+ */
 
 /**
  * Servlet implementation class ForestServlet
@@ -32,13 +35,12 @@ public class ForestServletEnter extends HttpServlet {
         protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
                 // TODO Auto-generated method stub
             
-            //Parameters from request
+            //Get parameters from request and call insert function
             response.setContentType("text/html");
             response.setStatus(HttpServletResponse.SC_OK);
             response.getWriter().println("<h1>Response:</h1>");
             response.getWriter().println("Request received correctly!");
             
-            //FIXME: change the DAO creation!!!!!
             EntityForestDAO efd = (EntityForestDAO) new EntityForestPostgresDAO();
             
             //Create an instance of the EntityForest

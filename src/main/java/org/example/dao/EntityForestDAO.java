@@ -1,10 +1,13 @@
 package org.example.dao;
 
-
 import java.util.List;
 
 import org.example.entity.EntityForest;
 
+/**
+ * @author Gabriele Giovenco
+ *
+ */
 
 /**
  * This interface must be implemented for each kind of database access

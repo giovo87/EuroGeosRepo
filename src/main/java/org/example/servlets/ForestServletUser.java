@@ -1,7 +1,5 @@
 package org.example.servlets;
 
-
-
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
@@ -19,6 +17,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * @author Gabriele Giovenco
+ *
+ */
 
 /**
  * Servlet implementation class ForestServlet
@@ -40,7 +42,7 @@ public class ForestServletUser extends HttpServlet {
         protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
                 // TODO Auto-generated method stub
             
-            //FIXME: change the DAO creation!!!!!
+            //Get parameter from request, call get data function and prepare the json object
             EntityForestDAO efd = (EntityForestDAO) new EntityForestPostgresDAO();
             
             List<EntityForest> list = (List<EntityForest>)efd.getDataUser(request.getParameter("userid"));
@@ -63,7 +65,6 @@ public class ForestServletUser extends HttpServlet {
                     entity.put("userid", e.getUserId());
                     entities.put(entity);
                 }
-                //json.putOpt("entities", entities);
             }catch (JSONException jse){}
             
             response.setContentType("application/json");
