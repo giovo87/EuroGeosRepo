@@ -1,8 +1,8 @@
-package org.example.dao;
+package org.table1_4_a.dao;
 
 import java.util.List;
 
-import org.example.entity.EntityForest;
+import org.table1_4_a.entity.EntityForest;
 
 /**
  * @author Gabriele Giovenco

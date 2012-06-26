@@ -7,32 +7,30 @@
 	<jsp-file>src/main/webapp/displayData.jsp</jsp-file>
 	</servlet>
 	<servlet>
-		<servlet-name>eurogeos</servlet-name>
-		<servlet-class>org.example.eurogeos</servlet-class>
-	</servlet>
-	<servlet>
 		<servlet-name>forestEnter</servlet-name>
-		<servlet-class>org.example.servlets.ForestServletEnter</servlet-class>
+		<servlet-class>org.table1_4_a.servlets.ForestServletEnter</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>forestDelete</servlet-name>
-		<servlet-class>org.example.servlets.ForestServletDelete</servlet-class>
+		<servlet-class>org.table1_4_a.servlets.ForestServletDelete</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>forestUpdate</servlet-name>
-		<servlet-class>org.example.servlets.ForestServletUpdate</servlet-class>
+		<servlet-class>org.table1_4_a.servlets.ForestServletUpdate</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>forestUser</servlet-name>
-		<servlet-class>org.example.servlets.ForestServletUser</servlet-class>
+		<servlet-class>org.table1_4_a.servlets.ForestServletUser</servlet-class>
 	</servlet>
+	
+	<servlet>
+		<servlet-name>categoriesUser</servlet-name>
+		<servlet-class>org.table1_4_b.servlets.CategoriesServletUser</servlet-class>
+	</servlet>
+	
 	<servlet-mapping>
 		<servlet-name>displayData</servlet-name>
 		<url-pattern>/displayData</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>eurogeos</servlet-name>
-		<url-pattern>/eurogeos</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>forestEnter</servlet-name>
@@ -49,6 +47,11 @@
 	<servlet-mapping>
 		<servlet-name>forestUser</servlet-name>
 		<url-pattern>/forestUser</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>categoriesUser</servlet-name>
+		<url-pattern>/categoriesUser</url-pattern>
 	</servlet-mapping>
 	<persistence-unit-ref>
 		<persistence-unit-ref-name>src/main/resources/eurogeos-unit</persistence-unit-ref-name>

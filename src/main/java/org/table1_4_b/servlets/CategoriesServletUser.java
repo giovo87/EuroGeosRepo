@@ -1,4 +1,4 @@
-package org.example.servlets;
+package org.table1_4_b.servlets;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -9,13 +9,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.example.dao.EntityForestDAO;
-import org.example.dao.EntityForestPostgresDAO;
-import org.example.entity.EntityForest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.table1_4_b.dao.EntityCategoriesDAO;
+import org.table1_4_b.dao.EntityCategoriesPostgresDAO;
+import org.table1_4_b.entity.EntityCategories;
 
 /**
  * @author Gabriele Giovenco
@@ -25,13 +25,13 @@ import org.json.JSONObject;
 /**
  * Servlet implementation class ForestServlet
  */
-public class ForestServletUser extends HttpServlet {
+public class CategoriesServletUser extends HttpServlet {
         private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ForestServletUser() {
+    public CategoriesServletUser() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -43,28 +43,23 @@ public class ForestServletUser extends HttpServlet {
                 // TODO Auto-generated method stub
             
             //Get parameter from request, call get data function and prepare the json object
-            EntityForestDAO efd = (EntityForestDAO) new EntityForestPostgresDAO();
+            EntityCategoriesDAO efd = (EntityCategoriesDAO) new EntityCategoriesPostgresDAO();
             
-            List<EntityForest> list = (List<EntityForest>)efd.getDataUser(request.getParameter("userid"));
+            List<EntityCategories> list = (List<EntityCategories>)efd.getDataUser(request.getParameter("userid"));
 
             JSONArray entities = new JSONArray();
             JSONObject entity;
-            Iterator<EntityForest> it = list.iterator();
-            EntityForest e;
+            Iterator<EntityCategories> it = list.iterator();
+            EntityCategories e = it.next();
             
             try{
-                while(it.hasNext()){
                     entity = new JSONObject();
-                    e = it.next();
-                    entity.put("year", e.getYear());
                     entity.put("forest", e.getForest());
                     entity.put("other_wooded_land", e.getOther_wooded_land());
                     entity.put("other_land", e.getOther_land());
-                    entity.put("other_tree_cover", e.getOther_tree_cover());
+                    entity.put("other_tree_cover", e.getOther_land());
                     entity.put("inland_water_bodies", e.getInland_water_bodies());
-                    entity.put("userid", e.getUserId());
                     entities.put(entity);
-                }
             }catch (JSONException jse){}
             
             response.setContentType("application/json");

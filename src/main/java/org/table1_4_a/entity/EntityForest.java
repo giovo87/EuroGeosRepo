@@ -1,10 +1,8 @@
-package org.example.entity;
+package org.table1_4_a.entity;
 
 import java.io.Serializable;
 
 import javax.persistence.*;
-
-import org.hibernate.annotations.GenericGenerator;
 
 /**
  * @author Gabriele Giovenco

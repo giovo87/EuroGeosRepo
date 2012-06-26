@@ -1,4 +1,4 @@
-package org.example.servlets;
+package org.table1_4_a.servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,26 +9,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.example.dao.EntityForestDAO;
-import org.example.dao.EntityForestPostgresDAO;
-import org.example.entity.EntityForest;
+import org.table1_4_a.dao.EntityForestDAO;
+import org.table1_4_a.dao.EntityForestPostgresDAO;
+import org.table1_4_a.entity.EntityForest;
 
 /**
  * @author Gabriele Giovenco
  *
  */
 
-
 /**
  * Servlet implementation class ForestServlet
  */
-public class ForestServletDelete extends HttpServlet {
+public class ForestServletUpdate extends HttpServlet {
         private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ForestServletDelete() {
+    public ForestServletUpdate() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -39,7 +38,7 @@ public class ForestServletDelete extends HttpServlet {
         protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
                 // TODO Auto-generated method stub
             
-            //Get parameters from request and call delete function
+            //Get parameters from request and call update function
             response.setContentType("text/html");
             response.setStatus(HttpServletResponse.SC_OK);
             response.getWriter().println("<h1>Response:</h1>");
@@ -47,9 +46,12 @@ public class ForestServletDelete extends HttpServlet {
             
             EntityForestDAO efd = (EntityForestDAO) new EntityForestPostgresDAO();
             
+            String user = request.getParameter("userid");
             int year = Integer.parseInt(request.getParameter("year"));
-            String userid = request.getParameter("userid");
-            efd.delete(userid, year);
+            String param = request.getParameter("param");
+            int value = Integer.parseInt(request.getParameter("value"));
+            
+            efd.update(user, year, param, value);
         }
 
         /**

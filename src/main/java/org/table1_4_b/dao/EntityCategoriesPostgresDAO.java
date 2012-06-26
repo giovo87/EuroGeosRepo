@@ -1,4 +1,4 @@
-package org.example.dao;
+package org.table1_4_b.dao;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 
-import org.example.entity.EntityForest;
+import org.table1_4_b.entity.EntityCategories;
 
 /**
  * @author Gabriele Giovenco
@@ -20,54 +20,42 @@ import org.example.entity.EntityForest;
  * 
  */
 
-public class EntityForestPostgresDAO implements EntityForestDAO{
+public class EntityCategoriesPostgresDAO implements EntityCategoriesDAO{
     
     //create the Entity Manager Factory
     private EntityManagerFactory emf;
 
-    //Insert function called from the servlet in order to insert a new record in the DB
-    public void insert(EntityForest ef) {
-        // TODO Auto-generated method stub
-        emf = Persistence.createEntityManagerFactory("eurogeos-unit");
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(ef);
-        em.getTransaction().commit();
-    }
-
     //Get Data User function called from the servlet in order to insert retrieve user's data from the DB
     @SuppressWarnings("unchecked")
-    public List<EntityForest> getDataUser(String user) {
+    public List<EntityCategories> getDataUser(String user) {
         emf = Persistence.createEntityManagerFactory("eurogeos-unit");
         EntityManager em = emf.createEntityManager();
-        Query q = em.createQuery("SELECT e FROM EntityForest e WHERE e.userId =  ?1");
+        Query q = em.createQuery("SELECT e FROM EntityCategories e WHERE e.userId =  ?1");
         q.setParameter(1, user);
         return q.getResultList();
     }
 
     //Update function called from the servlet in order to update a record in the DB
-    public void update(String user, int year, String param, int value) {
+    public void update(String user, String param, int value) {
         // TODO Auto-generated method stub
         emf = Persistence.createEntityManagerFactory("eurogeos-unit");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        Query q = em.createQuery("UPDATE EntityForest e SET e." + param + " = ?1 WHERE e.year = ?2 AND e.userId = ?3");
+        Query q = em.createQuery("UPDATE EntityCategories e SET e." + param + " = ?1 WHERE e.userId = ?2");
         q.setParameter(1, value);
-        q.setParameter(2, year);
-        q.setParameter(3, user);
+        q.setParameter(2, user);
         q.executeUpdate();
         em.getTransaction().commit();
     }
 
     //Delete function called from the servlet in order to delete a record in the DB
-    public void delete(String userid, int year) {
+    public void delete(String userid) {
         // TODO Auto-generated method stub
         emf = Persistence.createEntityManagerFactory("eurogeos-unit");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        Query q = em.createQuery("delete from EntityForest e where e.year = ?1 AND e.userId= ?2");
-        q.setParameter(1, year);
-        q.setParameter(2, userid);
+        Query q = em.createQuery("delete from EntityForest e where e.userId= ?1");
+        q.setParameter(1, userid);
         q.executeUpdate();
         em.getTransaction().commit();
         
