@@ -33,88 +33,55 @@ public class EntityCategories implements Serializable{
             this.userId = userId;
     }
     
-    
-    @Column(name="forest")
-    private String forest;
+    @Id
+    @Column(name="category")
+    private String category;
     /**
-     * @return the forest
+     * @return the category
      */
-    public String getForest() {
-            return forest;
+    public String getCategory() {
+            return category;
     }
 
     /**
-     * @param forest the forest to set
+     * @param category the category to set
      */
-    public void setForest(String forest) {
-            this.forest = forest;
+    public void setCategory(String category) {
+            this.category = category;
     }
     
     
-    @Column(name="other_wooded_land")
-    private String other_wooded_land;
+    @Column(name="tier_for_reported_trend")
+    private String tier_for_reported_trend;
     /**
-     * @return the other_wooded_land
+     * @return the tier_for_reported_trend
      */
-    public String getOther_wooded_land() {
-            return other_wooded_land;
+    public String getTier_for_reported_trend() {
+            return tier_for_reported_trend;
     }
 
     /**
-     * @param other_wooded_land the other_wooded_land to set
+     * @param tier_for_reported_trend the tier_for_reported_trend to set
      */
-    public void setOther_wooded_land(String other_wooded_land) {
-            this.other_wooded_land = other_wooded_land;
+    public void setTier_for_reported_trend(String tier_for_reported_trend) {
+            this.tier_for_reported_trend = tier_for_reported_trend;
     }
     
     
-    @Column(name="other_land")
-    private String other_land;
+    @Column(name="tier_for_status")
+    private String tier_for_status;
     /**
-     * @return the other_land
+     * @return the Tier for status
      */
-    public String getOther_land() {
-            return other_land;
+    public String getTier_for_status() {
+            return tier_for_status;
     }
 
     /**
-     * @param other_land the other_land to set
+     * @param tier_for_status the tier_for_status to set
      */
-    public void setOther_land(String other_land) {
-            this.other_land = other_land;
-    }
-    
-    
-    @Column(name="other_tree_cover")
-    private String other_tree_cover;
-    /**
-     * @return the other_tree_cover
-     */
-    public String getOther_tree_cover() {
-            return other_tree_cover;
-    }
-
-    /**
-     * @param other_tree_cover the other_tree_cover
-     */
-    public void setOther_tree_cover(String other_tree_cover) {
-            this.other_tree_cover = other_tree_cover;
-    }
-    
-    @Column(name="inland_water_bodies")
-    private String inland_water_bodies;
-    /**
-     * @return the inland_water_bodies
-     */
-    public String getInland_water_bodies() {
-            return inland_water_bodies;
-    }
-
-    /**
-     * @param inland_water_bodies the inland_water_bodies
-     */
-    public void setInland_water_bodies(String inland_water_bodies) {
-            this.inland_water_bodies = inland_water_bodies;
+    public void setTier_for_status(String tier_for_status) {
+            this.tier_for_status = tier_for_status;
     }
     
 }

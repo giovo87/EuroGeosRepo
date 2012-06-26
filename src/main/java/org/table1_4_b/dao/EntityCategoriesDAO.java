@@ -14,7 +14,7 @@ import org.table1_4_b.entity.*;
  * 
  */
 public interface EntityCategoriesDAO {
-    public void update(String user, String param, int value);
+    public void update(String user, String param, String value);
     public void delete(String userid);
     public List<EntityCategories> getDataUser(String user);
 }

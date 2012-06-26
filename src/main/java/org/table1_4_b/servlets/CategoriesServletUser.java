@@ -50,16 +50,17 @@ public class CategoriesServletUser extends HttpServlet {
             JSONArray entities = new JSONArray();
             JSONObject entity;
             Iterator<EntityCategories> it = list.iterator();
-            EntityCategories e = it.next();
+            EntityCategories e;
             
             try{
+                while(it.hasNext()){
+                    e = it.next();
                     entity = new JSONObject();
-                    entity.put("forest", e.getForest());
-                    entity.put("other_wooded_land", e.getOther_wooded_land());
-                    entity.put("other_land", e.getOther_land());
-                    entity.put("other_tree_cover", e.getOther_land());
-                    entity.put("inland_water_bodies", e.getInland_water_bodies());
+                    entity.put("category", e.getCategory());
+                    entity.put("tier_for_reported_trend", e.getTier_for_reported_trend());
+                    entity.put("tier_for_status", e.getTier_for_status());
                     entities.put(entity);
+                }
             }catch (JSONException jse){}
             
             response.setContentType("application/json");

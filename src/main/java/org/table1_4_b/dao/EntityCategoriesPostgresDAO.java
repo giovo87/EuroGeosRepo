@@ -36,7 +36,7 @@ public class EntityCategoriesPostgresDAO implements EntityCategoriesDAO{
     }
 
     //Update function called from the servlet in order to update a record in the DB
-    public void update(String user, String param, int value) {
+    public void update(String user, String param, String value) {
         // TODO Auto-generated method stub
         emf = Persistence.createEntityManagerFactory("eurogeos-unit");
         EntityManager em = emf.createEntityManager();

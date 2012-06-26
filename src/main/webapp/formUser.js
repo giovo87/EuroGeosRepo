@@ -45,7 +45,8 @@ Ext.onReady(function() {
             handler: function(){
             	//get the current user
             	user = Ext.getCmp('userid').getValue();
-            	loadFromDb(); //function for table 1.4.a
+            	loadTable1_4_a();
+            	loadTable1_4_b();
             }
         }
         ,{
@@ -61,7 +62,7 @@ Ext.onReady(function() {
 
 //function for table 1.4.a
 //function called when login fase is finished or every time the DB is modified
-function loadFromDb(){
+function loadTable1_4_a(){
 	
 	//remove the login form
 	if (document.getElementById('login-div').hasChildNodes()) {
@@ -233,7 +234,7 @@ function loadFromDb(){
 	         		   '&value='+e.value,
 	         		   success: function() {
 	         			   alert('Updated in db');
-	         			   loadFromDb(user);
+	         			   loadTable1_4_a(user);
 	         		   },
 	         		   failure: function(response, opts) {
 	         		      alert('Operation failed!');
@@ -324,7 +325,7 @@ function showForm(){
          		   success: function() {
          			   alert('Add to the DB for user '+user);
          			   enter.getForm().reset();
-         			   loadFromDb(user);
+         			   loadTable1_4_a(user);
          		   },
          		   failure: function(response, opts) {
          		      alert('Operation failed!');
@@ -375,7 +376,7 @@ function showForm(){
          		   success: function() {
          			   alert('Delete from the DB for user '+user);
          			   del.getForm().reset();
-         			   loadFromDb(user);
+         			   loadTable1_4_a(user);
          		   },
          		   failure: function(response, opts) {
          		      alert('Operation failed!');
@@ -395,7 +396,9 @@ function showForm(){
 }
 
 
-
+function loadTable1_4_b(){
+	
+}
 
 
 
