@@ -27,6 +27,10 @@
 		<servlet-name>categoriesUser</servlet-name>
 		<servlet-class>org.table1_4_b.servlets.CategoriesServletUser</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>categoriesUpdate</servlet-name>
+		<servlet-class>org.table1_4_b.servlets.CategoriesServletUpdate</servlet-class>
+	</servlet>
 	
 	<servlet-mapping>
 		<servlet-name>displayData</servlet-name>
@@ -52,6 +56,10 @@
 	<servlet-mapping>
 		<servlet-name>categoriesUser</servlet-name>
 		<url-pattern>/categoriesUser</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>categoriesUpdate</servlet-name>
+		<url-pattern>/categoriesUpdate</url-pattern>
 	</servlet-mapping>
 	<persistence-unit-ref>
 		<persistence-unit-ref-name>src/main/resources/eurogeos-unit</persistence-unit-ref-name>

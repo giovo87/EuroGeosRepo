@@ -1,22 +1,63 @@
+/*
+ *  Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ *  http://www.geo-solutions.it
+ *
+ *  GPLv3 + Classpath exception
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 Ext.require([
-    //'Ext.form.*',
-    //'Ext.layout.container.Column',
-    //'Ext.tab.Panel'
     '*'
 ]);
 
-//variable containing the current user
 var user;
-//for required fields
+
 var required = '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>';
-//flag: 0=not visible
-//      1=visible
-var formVisible = 0;
+
+/**
+ * Variable that define the Cell Editing Plugin
+ */
+var cellEditing = Ext.create('Ext.grid.plugin.CellEditing', {
+    clicksToEdit: 2
+});
+/**
+ * Variable that define the Cell Editing Plugin
+ */
+var cellEditing1 = Ext.create('Ext.grid.plugin.CellEditing', {
+    clicksToEdit: 2
+});
+
+/**
+ * Performs control on passed value
+ * 
+ * @param value The value to check
+ */
+function check(value){
+	if(!isNaN(parseInt(value)) && value >=0)
+		return true;
+	else
+		return false;
+}
 
 Ext.onReady(function() {
     Ext.QuickTips.init();
 
-    //form for login
+    /**
+     * Define the form for login phase
+     * 
+     */
     var simple = Ext.widget({
         xtype: 'form',
         layout: 'form',
@@ -43,9 +84,9 @@ Ext.onReady(function() {
         buttons: [{
             text: 'Submit',
             handler: function(){
-            	//get the current user
             	user = Ext.getCmp('userid').getValue();
             	loadTable1_4_a();
+            	showForm();
             	loadTable1_4_b();
             }
         }
@@ -60,21 +101,18 @@ Ext.onReady(function() {
 
 });
 
-//function for table 1.4.a
-//function called when login fase is finished or every time the DB is modified
+/**
+ * Function called in order to create the table 1_4_a
+ */
 function loadTable1_4_a(){
 	
-	//remove the login form
 	if (document.getElementById('login-div').hasChildNodes()) {
 		document.getElementById('login-div').removeChild(document.getElementById('login-div').childNodes[0]);
 	}
-	
-	//cell editing plugin
-	var cellEditing = Ext.create('Ext.grid.plugin.CellEditing', {
-        clicksToEdit: 2
-    });
-	
-	//define the model to get the DB data
+
+	/**
+     * Define the model for table 1_4_a data
+     */
 	Ext.define('entity', {
 	    extend: 'Ext.data.Model',
 	    fields: [
@@ -87,8 +125,10 @@ function loadTable1_4_a(){
 	        {name: 'userid', type: 'string'}
 	    ]
 	});
-	
-	//define the store to get the data
+
+	/**
+     * Define the store for table 1_4_a data
+     */
 	var store = new Ext.data.Store({
 		storeId:'userdata',
 	    model: 'entity',
@@ -100,86 +140,90 @@ function loadTable1_4_a(){
 	        }
 	    }
 	});
-	//load the store with DB data
 	store.load();
-	//sort the store
 	store.sort('year', 'ASC');
-	//callback function called when store is ready
+	
+	/**
+     * Callback function called when the store is ready
+     */
 	store.on('load', function() {
 		
-		//////////////////////////////////////////////////////////
+		// ////////////////////////////////////////////////////////
 		// in this function it's necessary to "convert" the store
 		// because new data in the table means new COLUMN!!!
-		/////////////////////////////////////////////////////////
+		// ///////////////////////////////////////////////////////
 		
 		
-		/////////////////////////////////////////////////////////////////////////
+		// ///////////////////////////////////////////////////////////////////////
 		// Prepare fields for Model:
 		//     every field is named with an integer from 0 to store.getCount()
 		//     because the number of columns depends from the number of entries
 		//     for this user in the DB (dinamic)
-		/////////////////////////////////////////////////////////////////////////
+		// ///////////////////////////////////////////////////////////////////////
 		var fields = new Array(store.getCount());
 		for(var i = 0; i < store.getCount()+1; i++){
 			var field = {name: ''+i, type: 'string'};
 			fields[i]=field;
 		}
-		//set up the new model
+		
+		/**
+	     * Define the dynamic model for table 1_4_a data
+	     */
 		Ext.define('userModel', {
 		    extend: 'Ext.data.Model',
 		    fields: fields
 		});
-		//prepare the new store with the new model
+		
+		/**
+	     * Define the dynamic store for table 1_4_a data
+	     */
 		var userStore = new Ext.data.Store({
 			storeId:'userStore',
 		    model: 'userModel',
 		});
 		
-		//fill the store
+		// ///////////////////////////////////////////////////////////////////////
+		// Fill the store
+		//     there are always 5 records
+		// ///////////////////////////////////////////////////////////////////////
 		var arr = [];
 		var temp = "forest";
 		arr[0] = temp;
-		//get all forest values in the 1 record
 		for(var i = 0; i < store.getCount(); i++){
 			temp = store.getAt(i).get("forest");
 			arr[i+1]=temp;
 		}
-		userStore.add([arr]); //add to the store
+		userStore.add([arr]);
 		var temp = 'other_wooded_land';
 		arr[0] = temp;
-		//get all owl values in the 2 record
 		for(var i = 0; i < store.getCount(); i++){
 			temp = store.getAt(i).get("other_wooded_land");
 			arr[i+1]=temp;
 		}
-		userStore.add([arr]);//add to the store
+		userStore.add([arr]);
 		var temp = 'other_land';
 		arr[0] = temp;
-		//get all ol values in the 3 record
 		for(var i = 0; i < store.getCount(); i++){
 			temp = store.getAt(i).get("other_land");
 			arr[i+1]=temp;
 		}
-		userStore.add([arr]);//add to the store
+		userStore.add([arr]);
 		var temp = 'other_tree_cover';
 		arr[0] = temp;
-		//get all otc values in the 4 record
 		for(var i = 0; i < store.getCount(); i++){
 			temp = store.getAt(i).get("other_tree_cover");
 			arr[i+1]=temp;
 		}
-		userStore.add([arr]);//add to the store
+		userStore.add([arr]);
 		var temp = 'inland_water_bodies';
 		arr[0] = temp;
-		//get all iwb values in the 5 record
 		for(var i = 0; i < store.getCount(); i++){
 			temp = store.getAt(i).get("inland_water_bodies");
 			arr[i+1]=temp;
 		}
-		userStore.add([arr]);//add to the store
+		userStore.add([arr]);
 		var temp = 'TOTAL';
 		arr[0] = temp;
-		//get all TOTALS values in the 6 record
 		for(var i = 0; i < store.getCount(); i++){
 			temp = store.getAt(i).get("forest") +
 				store.getAt(i).get("other_tree_cover") +
@@ -188,20 +232,23 @@ function loadTable1_4_a(){
 				store.getAt(i).get("inland_water_bodies");
 			arr[i+1]=temp;
 		}
-		userStore.add([arr]);//add to the store
+		userStore.add([arr]);
 		
-		//prepare columns for grid (dinamic)
+		// ///////////////////////////////////////////////////////////////////////
+		// Prepare dinamic columns
+		// ///////////////////////////////////////////////////////////////////////
 		var cols = new Array(store.getCount());
 		for(var i = 0; i < store.getCount(); i++){
 			var col={ width : 75, sortable : false, dataIndex : ''+(i+1), text : store.getAt(i).get("year"), editor:{allowBlank: false}};
 			cols[i] = col;
 		}
 		
-		//delete previous table
 		if (document.getElementById('grid-div').hasChildNodes())
 			document.getElementById('grid-div').removeChild(document.getElementById('grid-div').childNodes[0]);
 		
-		//prepare the grid
+		/**
+	     * Define the dynamic grid for table 1_4_a data
+	     */
 		var grid = new Ext.grid.GridPanel({
 		    title: 'User data',
 		    store: userStore,
@@ -217,24 +264,27 @@ function loadTable1_4_a(){
 		    width: 910,
 		    renderTo: Ext.get('grid-div')
 		});
-		//callback function called every time a cell is edited
+		
+		/**
+	     * Callback function called when a cell of the grid is ready
+	     */
 		grid.on('edit', function(editor, e) {
-			  //if user try to change the TOTAL field OR not edit the value of a cell
 			  if (e.rowIdx == 5 || e.value == e.originalValue) {
 			      e.record.data[e.field] = e.originalValue;
 			      e.record.commit();
 			  }
-			  //if a cell is edited with a new value
 			  else{
-				  //Ajax request: send user, year, name of the changed property and new value
 				  Ext.Ajax.request({
 	         		   url: 'forestUpdate?userid='+user+
 	         		   '&year='+e.column.text+
 	         		   '&param='+e.record.data[0]+
 	         		   '&value='+e.value,
 	         		   success: function() {
-	         			   alert('Updated in db');
-	         			   loadTable1_4_a(user);
+	         			   var rec = userStore.getAt(5);
+	         			   var value = parseInt(userStore.getAt(5).get(e.colIdx));
+	         			   value = value - parseInt(e.originalValue) + parseInt(e.value);
+	         			   rec.set(''+e.colIdx, ''+value);
+	         			   userStore.commitChanges();
 	         		   },
 	         		   failure: function(response, opts) {
 	         		      alert('Operation failed!');
@@ -244,20 +294,19 @@ function loadTable1_4_a(){
 	         		   }
 	         	  });
 			  }
-			});
-		//display insert and delete form
-		if(formVisible == 0){
-			formVisible=1;
-			showForm();
-		}
-	});
-	
-	
+		});
+	});	
 	
 }
 
+/**
+ * Function called in order to show the insert and the delete form for the table 1_4_a
+ */
 function showForm(){
-	//prepare the insert form
+	
+	/**
+     * Define insert form for table 1_4_a
+     */
 	var enter = Ext.widget({
         xtype: 'form',
         layout: 'form',
@@ -314,24 +363,33 @@ function showForm(){
         buttons: [{
             text: 'Submit',
             handler: function(){
-            	Ext.Ajax.request({
-         		   url: 'forestEnter?userid='+user+
-         		   '&year='+Ext.getCmp('year').getValue()+
-         		   '&forest='+Ext.getCmp('forest').getValue()+
-         		   '&owl='+Ext.getCmp('other_wooded_land').getValue()+
-         		   '&ol='+Ext.getCmp('other_land').getValue()+
-         		   '&otc='+Ext.getCmp('other_tree_cover').getValue()+
-         		   '&iwb='+Ext.getCmp('inland_water_bodies').getValue(),
-         		   success: function() {
-         			   alert('Add to the DB for user '+user);
-         			   enter.getForm().reset();
-         			   loadTable1_4_a(user);
-         		   },
-         		   failure: function(response, opts) {
-         		      alert('Operation failed!');
-         		      enter.getForm().reset();
-         		   }
-         	});
+            	if(check(Ext.getCmp('year').getValue()) &&
+            			check(Ext.getCmp('forest').getValue()) &&
+            			check(Ext.getCmp('other_wooded_land').getValue()) &&
+            			check(Ext.getCmp('other_land').getValue()) &&
+            			check(Ext.getCmp('other_tree_cover').getValue()) &&
+            			check(Ext.getCmp('inland_water_bodies').getValue())){
+	            	Ext.Ajax.request({
+	         		   url: 'forestEnter?userid='+user+
+	         		   '&year='+Ext.getCmp('year').getValue()+
+	         		   '&forest='+Ext.getCmp('forest').getValue()+
+	         		   '&owl='+Ext.getCmp('other_wooded_land').getValue()+
+	         		   '&ol='+Ext.getCmp('other_land').getValue()+
+	         		   '&otc='+Ext.getCmp('other_tree_cover').getValue()+
+	         		   '&iwb='+Ext.getCmp('inland_water_bodies').getValue(),
+	         		   success: function() {
+	         			   enter.getForm().reset();
+	         			   loadTable1_4_a(user);
+	         		   },
+	         		   failure: function(response, opts) {
+	         		      alert('Operation failed!');
+	         		      enter.getForm().reset();
+	         		   }
+	            	});
+            	}
+            	else
+            		alert('Fields must be numbers >= 0!');
+            		
             }
         }
         ,{
@@ -343,7 +401,9 @@ function showForm(){
         renderTo: Ext.get('add-div')
     });
 	
-	//prepare the delete form
+	/**
+     * Define the delete form for table 1_4_a 
+     */
 	var del = Ext.widget({
         xtype: 'form',
         layout: 'form',
@@ -371,18 +431,21 @@ function showForm(){
         buttons: [{
             text: 'Submit',
             handler: function(){
-            	Ext.Ajax.request({
-         		   url: 'forestDelete?userid='+user+'&year='+Ext.getCmp('year-del').getValue(),
-         		   success: function() {
-         			   alert('Delete from the DB for user '+user);
-         			   del.getForm().reset();
-         			   loadTable1_4_a(user);
-         		   },
-         		   failure: function(response, opts) {
-         		      alert('Operation failed!');
-         		      enter.getForm().reset();
-         		   }
-         	});
+            	if(check(parseInt(Ext.getCmp('year-del').getValue()))){
+	            	Ext.Ajax.request({
+	         		   url: 'forestDelete?userid='+user+'&year='+Ext.getCmp('year-del').getValue(),
+	         		   success: function() {
+	         			   del.getForm().reset();
+	         			   loadTable1_4_a();
+	         		   },
+	         		   failure: function(response, opts) {
+	         		      alert('Operation failed!');
+	         		      enter.getForm().reset();
+	         		   }
+	            	});
+            	}
+            	else
+            		alert('Field must be a number >= 0!');
             }
         }
         ,{
@@ -396,8 +459,131 @@ function showForm(){
 }
 
 
+/**
+ * Function called in order to create the table 1_4_b
+ */
 function loadTable1_4_b(){
+	/**
+     * Define the model for table 1_4_b
+     */
+	Ext.define('category', {
+	    extend: 'Ext.data.Model',
+	    fields: [
+	        {name: 'category',   type: 'String'},
+	        {name: 'tier_for_reported_trend', type: 'String'},
+	        {name: 'tier_for_status', type: 'String'}
+	    ]
+	});
 	
+	/**
+     * Define the store for table 1_4_b 
+     */
+	var storeCategories = new Ext.data.Store({
+		storeId:'storeCategories',
+	    model: 'category',
+	    proxy: {
+	        type: 'ajax',
+	        url : 'categoriesUser?userid='+user,
+	        reader: {
+	            type: 'json'
+	        }
+	    }
+	});
+	storeCategories.load();
+	
+	/**
+     * Callback function called when the store is ready
+     */
+	storeCategories.on('load', function() {
+		
+		/**
+	     * Define the grid for table 1_4_b
+	     */
+		var gridCat = new Ext.grid.GridPanel({
+		    title: 'Categories',
+		    store: storeCategories,
+		    columns: [
+				{ 
+					text:'Variable/category',
+					dataIndex: 'category',
+					width: 200
+				},
+				{ 
+					id: 'tier_for_reported_trend',
+					text: 'Tier for reported trend',
+					dataIndex: 'tier_for_reported_trend',
+					editor:{allowBlank: false},
+					editor: new Ext.form.field.ComboBox({
+						fieldLabel: 'Choose Tier',
+		                typeAhead: true,
+		                triggerAction: 'all',
+		                selectOnTab: true,
+		                store: [
+		                    ['Tier 1','Tier 1'],
+		                    ['Tier 2','Tier 2'],
+		                    ['Tier 3','Tier 3']
+		                ],
+		                lazyRender: true,
+		                listClass: 'x-combo-list-small'
+		            }),
+		            width: 200
+				},
+	            { 
+					text: 'Tier for status',
+					id: 'tier_for_status',
+					dataIndex: 'tier_for_status',
+					editor: new Ext.form.field.ComboBox({
+						fieldLabel: 'Choose Tier',
+		                typeAhead: true,
+		                triggerAction: 'all',
+		                selectOnTab: true,
+		                store: [
+		                    ['Tier 1','Tier 1'],
+		                    ['Tier 2','Tier 2'],
+		                    ['Tier 3','Tier 3']
+		                ],
+		                lazyRender: true,
+		                listClass: 'x-combo-list-small'
+		            }),
+		            width: 200
+				}
+			],
+		    selModel: {
+	            selType: 'cellmodel'
+	        },
+	        plugins: [cellEditing1],
+		    height: 200,
+		    width: 700,
+		    renderTo: Ext.get('grid1_4_b-div')
+		});
+		
+		/**
+	     * Callback function called when a cell of the grid is edited
+	     */
+		gridCat.on('edit', function(editor, e) {
+			if (e.value != "Tier 1" && e.value != "Tier 2" && e.value != "Tier 3") {
+				alert('Select a value contained in combobox (\"Tier 1\" or \"Tier 2\" or \"Tier 3\")');
+			    e.record.data[e.field] = e.originalValue;
+			    e.record.commit();
+			}
+			else{
+				Ext.Ajax.request({
+	         		   url: 'categoriesUpdate?userid='+user+
+	         		   '&param='+e.column.id+
+	         		   '&category='+e.record.data['category']+
+	         		   '&value='+e.value,
+	         		   success: function() {
+	         		   },
+	         		   failure: function(response, opts) {
+	         		      alert('Operation failed!');
+	         		      e.cancel = true;
+	     			      e.record.data[e.field] = e.originalValue;
+	     			      e.record.commit();
+	         		   }
+	         	  });
+			}
+		});
+	});
 }
 
 

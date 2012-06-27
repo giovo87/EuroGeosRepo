@@ -1,3 +1,23 @@
+/*
+ *  Copyright (C) 2007 - 2011 GeoSolutions S.A.S.
+ *  http://www.geo-solutions.it
+ *
+ *  GPLv3 + Classpath exception
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package org.table1_4_a.entity;
 
 import java.io.Serializable;
@@ -19,6 +39,7 @@ public class EntityForest implements Serializable{
     @Id
     @Column(name="userid")
     private String userId;
+    
     /**
      * @return the userId
      */
@@ -36,6 +57,7 @@ public class EntityForest implements Serializable{
     @Id
     @Column(name="year")
     private int year;
+    
     /**
      * @return the year
      */
@@ -53,6 +75,7 @@ public class EntityForest implements Serializable{
     
     @Column(name="forest")
     private int forest;
+    
     /**
      * @return the forest
      */
@@ -70,6 +93,7 @@ public class EntityForest implements Serializable{
     
     @Column(name="other_wooded_land")
     private int other_wooded_land;
+    
     /**
      * @return the other_wooded_land
      */
@@ -87,6 +111,7 @@ public class EntityForest implements Serializable{
     
     @Column(name="other_land")
     private int other_land;
+    
     /**
      * @return the other_land
      */
@@ -104,6 +129,7 @@ public class EntityForest implements Serializable{
     
     @Column(name="other_tree_cover")
     private int other_tree_cover;
+    
     /**
      * @return the other_tree_cover
      */
@@ -120,6 +146,7 @@ public class EntityForest implements Serializable{
     
     @Column(name="inland_water_bodies")
     private int inland_water_bodies;
+    
     /**
      * @return the inland_water_bodies
      */
