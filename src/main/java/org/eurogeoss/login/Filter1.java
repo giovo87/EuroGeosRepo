@@ -59,7 +59,7 @@ public class Filter1 implements Filter {
             final FilterChain chain ) throws IOException, ServletException {
         final HttpServletRequest httpRequest = (HttpServletRequest) request;
         final HttpServletResponse httpResponse = (HttpServletResponse) response;
-        if(httpRequest.getRequestURL().toString().contains("login.html")||
+        if(/*httpRequest.getRequestURL().toString().contains("login.html")||*/
         		httpRequest.getRequestURL().toString().contains("entryForm.html")||
         		httpRequest.getRequestURL().toString().contains("forestUser")||
         		httpRequest.getRequestURL().toString().contains("forestUpdate")||
@@ -67,7 +67,6 @@ public class Filter1 implements Filter {
         		httpRequest.getRequestURL().toString().contains("forestEnter")||
         		httpRequest.getRequestURL().toString().contains("categoriesUpdate")||
         		httpRequest.getRequestURL().toString().contains("categoriesUser")){
-            
             Cookie[] cookies = httpRequest.getCookies();
         	if(cookies != null && cookies.length != 0){
         		for (int i = 0; i < cookies.length; i++){
@@ -78,7 +77,16 @@ public class Filter1 implements Filter {
         			}
         		}
         	}
-        	httpResponse.sendError(httpResponse.SC_UNAUTHORIZED);
+//        	httpResponse.setHeader("Access-Control-Allow-Origin", "*");
+//        	httpResponse.sendRedirect("login.html");
+//        	httpResponse.sendError(httpResponse.SC_FOUND);
+//        	httpResponse.setHeader("Location", "login.html");
+//        	httpResponse.setStatus(httpResponse.SC_SEE_OTHER);
+//        	httpResponse.getWriter().println("ERROR");
+//        	httpResponse.setStatus(httpResponse.SC_MOVED_TEMPORARILY);
+        	httpResponse.sendRedirect("login.html");
+//        	chain.doFilter(httpRequest, httpResponse);
+            	
         	return;
         }
         chain.doFilter(httpRequest, httpResponse);

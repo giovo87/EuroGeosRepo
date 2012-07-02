@@ -61,28 +61,30 @@ public class ForestServletEnter extends HttpServlet {
      * @param httpServletResponse The response object sent to the client
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Map<String,String> mp=new HashMap<String, String>();
-        mp  = (Map<String, String>) request.getSession().getAttribute("map");
-        String userid = mp.get(request.getSession().getAttribute("token"));
-        
-        response.setContentType("text/html");
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().println("<h1>Response:</h1>");
-        response.getWriter().println("Request received correctly!");
-        
-        EntityForestDAO efd = (EntityForestDAO) new EntityForestPostgresDAO();
-        
-        EntityForest ef = new EntityForest();
-        
-        ef.setUserId(userid);
-        ef.setYear(Integer.parseInt(request.getParameter("year")));
-        ef.setForest(Integer.parseInt(request.getParameter("forest")));
-        ef.setOther_wooded_land(Integer.parseInt(request.getParameter("owl")));
-        ef.setOther_land(Integer.parseInt(request.getParameter("ol")));
-        ef.setOther_tree_cover(Integer.parseInt(request.getParameter("otc")));
-        ef.setInland_water_bodies(Integer.parseInt(request.getParameter("iwb")));
-        
-        efd.insert(ef);
+        if(request.getSession().getAttribute("map") != null && request.getSession().getAttribute("token") != null){
+            Map<String,String> mp=new HashMap<String, String>();
+            mp  = (Map<String, String>) request.getSession().getAttribute("map");
+            String userid = mp.get(request.getSession().getAttribute("token"));
+            
+            response.setContentType("text/html");
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.getWriter().println("<h1>Response:</h1>");
+            response.getWriter().println("Request received correctly!");
+            
+            EntityForestDAO efd = (EntityForestDAO) new EntityForestPostgresDAO();
+            
+            EntityForest ef = new EntityForest();
+            
+            ef.setUserId(userid);
+            ef.setYear(Integer.parseInt(request.getParameter("year")));
+            ef.setForest(Integer.parseInt(request.getParameter("forest")));
+            ef.setOther_wooded_land(Integer.parseInt(request.getParameter("owl")));
+            ef.setOther_land(Integer.parseInt(request.getParameter("ol")));
+            ef.setOther_tree_cover(Integer.parseInt(request.getParameter("otc")));
+            ef.setInland_water_bodies(Integer.parseInt(request.getParameter("iwb")));
+            
+            efd.insert(ef);
+        }
         
     }
 

@@ -91,7 +91,7 @@ public class LoginServlet extends HttpServlet {
             String token = Long.toString(rand.nextLong());
             request.getSession().setAttribute("token", token);
             Cookie userCookie = new Cookie("session", token);
-            userCookie.setMaxAge(60);
+            userCookie.setMaxAge(600);
             response.addCookie(userCookie);
             mp.put(token, retrieveUserID(user, password));
             request.getSession().setAttribute("map", mp);

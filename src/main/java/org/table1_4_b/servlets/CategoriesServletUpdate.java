@@ -57,23 +57,25 @@ public class CategoriesServletUpdate extends HttpServlet {
      * @param httpServletResponse The response object sent to the client
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Map<String,String> mp=new HashMap<String, String>();
-        mp  = (Map<String, String>) request.getSession().getAttribute("map");
-        String userid = mp.get(request.getSession().getAttribute("token"));
-        
-        response.setContentType("text/html");
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().println("<h1>Response:</h1>");
-        response.getWriter().println("Request received correctly!");
-        
-        EntityCategoriesDAO efd = (EntityCategoriesDAO) new EntityCategoriesPostgresDAO();
-        
-        String user = userid;
-        String param = request.getParameter("param");
-        String category = request.getParameter("category");
-        String value = request.getParameter("value");
-        
-        efd.update(user, param, category, value);
+        if(request.getSession().getAttribute("map") != null && request.getSession().getAttribute("token") != null){
+            Map<String,String> mp=new HashMap<String, String>();
+            mp  = (Map<String, String>) request.getSession().getAttribute("map");
+            String userid = mp.get(request.getSession().getAttribute("token"));
+            
+            response.setContentType("text/html");
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.getWriter().println("<h1>Response:</h1>");
+            response.getWriter().println("Request received correctly!");
+            
+            EntityCategoriesDAO efd = (EntityCategoriesDAO) new EntityCategoriesPostgresDAO();
+            
+            String user = userid;
+            String param = request.getParameter("param");
+            String category = request.getParameter("category");
+            String value = request.getParameter("value");
+            
+            efd.update(user, param, category, value);
+        }
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

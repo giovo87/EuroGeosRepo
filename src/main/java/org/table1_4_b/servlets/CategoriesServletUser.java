@@ -64,33 +64,35 @@ public class CategoriesServletUser extends HttpServlet {
      * @param httpServletResponse The response object sent to the client
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Map<String,String> mp=new HashMap<String, String>();
-        mp  = (Map<String, String>) request.getSession().getAttribute("map");
-        String userid = mp.get(request.getSession().getAttribute("token"));
-        
-        EntityCategoriesDAO efd = (EntityCategoriesDAO) new EntityCategoriesPostgresDAO();
-        
-        List<EntityCategories> list = (List<EntityCategories>)efd.getDataUser(userid);
-
-        JSONArray entities = new JSONArray();
-        JSONObject entity;
-        Iterator<EntityCategories> it = list.iterator();
-        EntityCategories e;
-        
-        try{
-            while(it.hasNext()){
-                e = it.next();
-                entity = new JSONObject();
-                entity.put("category", e.getCategory());
-                entity.put("tier_for_reported_trend", e.getTier_for_reported_trend());
-                entity.put("tier_for_status", e.getTier_for_status());
-                entities.put(entity);
-            }
-        }catch (JSONException jse){}
-        
-        response.setContentType("application/json");
-        response.getWriter().write(entities.toString());
-        
+        if(request.getSession().getAttribute("map") != null && request.getSession().getAttribute("token") != null){
+            Map<String,String> mp=new HashMap<String, String>();
+            mp  = (Map<String, String>) request.getSession().getAttribute("map");
+            String userid = mp.get(request.getSession().getAttribute("token"));
+            
+            EntityCategoriesDAO efd = (EntityCategoriesDAO) new EntityCategoriesPostgresDAO();
+            
+            List<EntityCategories> list = (List<EntityCategories>)efd.getDataUser(userid);
+    
+            JSONArray entities = new JSONArray();
+            JSONObject entity;
+            Iterator<EntityCategories> it = list.iterator();
+            EntityCategories e;
+            
+            try{
+                while(it.hasNext()){
+                    e = it.next();
+                    entity = new JSONObject();
+                    entity.put("category", e.getCategory());
+                    entity.put("tier_for_reported_trend", e.getTier_for_reported_trend());
+                    entity.put("tier_for_status", e.getTier_for_status());
+                    entities.put(entity);
+                }
+            }catch (JSONException jse){}
+            
+            response.setContentType("application/json");
+            response.getWriter().write(entities.toString());
+            
+        }
     }
 
 

@@ -63,10 +63,7 @@ Ext.onReady(function() {
 });
 
 function exceptionHandlerMethod(connection, response, requestOptions, listenerOptions) {
-    if(response.status == 401) {
-        alert('Server response with code 401. You will be redirected to the login page!');
         window.location.href = "login.html";
-    }
 }
 
 /**
@@ -242,7 +239,13 @@ function loadTable1_4_a(){
 	         		   '&year='+e.column.text+
 	         		   '&param='+e.record.data[0]+
 	         		   '&value='+e.value,
-	         		   success: function() {
+	         		   success: function(response, opts) {
+	         			   if(response.responseText.indexOf("formLogin") != -1){
+	         				  e.cancel = true;
+		     			      e.record.data[e.field] = e.originalValue;
+		     			      e.record.commit();
+		     			      window.location.href = "login.html";
+	         			   }
 	         			   var rec = userStore.getAt(5);
 	         			   var value = parseInt(userStore.getAt(5).get(e.colIdx));
 	         			   value = value - parseInt(e.originalValue) + parseInt(e.value);
@@ -250,8 +253,6 @@ function loadTable1_4_a(){
 	         			   userStore.commitChanges();
 	         		   },
 	         		   failure: function(response, opts) {
-	         			  if(response.status!=401)
-	         				  alert('Operation failed!');
 	         		      e.cancel = true;
 	     			      e.record.data[e.field] = e.originalValue;
 	     			      e.record.commit();
@@ -341,12 +342,14 @@ function showForm(){
 	         		   '&ol='+Ext.getCmp('other_land').getValue()+
 	         		   '&otc='+Ext.getCmp('other_tree_cover').getValue()+
 	         		   '&iwb='+Ext.getCmp('inland_water_bodies').getValue(),
-	         		   success: function() {
+	         		   success: function(response, opts) {
+		         			   if(response.responseText.indexOf("formLogin") != -1){
+			     			      window.location.href = "login.html";
+		         			   }
 	         			   enter.getForm().reset();
 	         			   loadTable1_4_a(user);
 	         		   },
 	         		   failure: function(response, opts) {
-	         			  if(response.status!=401)
 	         				  alert('Operation failed!');
 	         		      enter.getForm().reset();
 	         		   }
@@ -399,12 +402,14 @@ function showForm(){
             	if(check(parseInt(Ext.getCmp('year-del').getValue()))){
 	            	Ext.Ajax.request({
 	         		   url: 'forestDelete?userid='+user+'&year='+Ext.getCmp('year-del').getValue(),
-	         		   success: function() {
+	         		  success: function(response, opts) {
+	         			   if(response.responseText.indexOf("formLogin") != -1){
+		     			      window.location.href = "login.html";
+	         			   }
 	         			   del.getForm().reset();
 	         			   loadTable1_4_a();
 	         		   },
 	         		   failure: function(response, opts) {
-	         			  if(response.status!=401)
 	         				  alert('Operation failed!');
 	         		      enter.getForm().reset();
 	         		   }
@@ -533,21 +538,25 @@ function loadTable1_4_b(){
 			    e.record.commit();
 			}
 			else{
-				Ext.Ajax.request({
-	         		   url: 'categoriesUpdate?userid='+user+
-	         		   '&param='+e.column.id+
-	         		   '&category='+e.record.data['category']+
-	         		   '&value='+e.value,
-	         		   success: function() {
-	         		   },
-	         		   failure: function(response, opts) {
-	         			  if(response.status!=401)
-	         				  alert('Operation failed!');
-	         		      e.cancel = true;
-	     			      e.record.data[e.field] = e.originalValue;
-	     			      e.record.commit();
-	         		   }
-	         	  });
+				if(e.value != e.originalValue){
+					Ext.Ajax.request({
+		         		   url: 'categoriesUpdate?userid='+user+
+		         		   '&param='+e.column.id+
+		         		   '&category='+e.record.data['category']+
+		         		   '&value='+e.value,
+		         		   success: function(response, opts) {
+		         			   if(response.responseText.indexOf("formLogin") != -1){
+			     			      window.location.href = "login.html";
+		         			   }
+		         		   },
+		         		   failure: function(response, opts) {
+		         				  alert('Operation failed!');
+		         		      e.cancel = true;
+		     			      e.record.data[e.field] = e.originalValue;
+		     			      e.record.commit();
+		         		   }
+		         	});
+			    }
 			}
 		});
 	});

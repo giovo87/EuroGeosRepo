@@ -69,36 +69,39 @@ public class ForestServletUser extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Map<String,String> mp=new HashMap<String, String>();
-        mp  = (Map<String, String>) request.getSession().getAttribute("map");
-        String userid = mp.get(request.getSession().getAttribute("token"));
-        
-    	EntityForestDAO efd = (EntityForestDAO) new EntityForestPostgresDAO();
-        
-        List<EntityForest> list = (List<EntityForest>)efd.getDataUser(userid);
-        
-        JSONArray entities = new JSONArray();
-        JSONObject entity;
-        Iterator<EntityForest> it = list.iterator();
-        EntityForest e;
-        
-        try{
-            while(it.hasNext()){
-                entity = new JSONObject();
-                e = it.next();
-                entity.put("year", e.getYear());
-                entity.put("forest", e.getForest());
-                entity.put("other_wooded_land", e.getOther_wooded_land());
-                entity.put("other_land", e.getOther_land());
-                entity.put("other_tree_cover", e.getOther_tree_cover());
-                entity.put("inland_water_bodies", e.getInland_water_bodies());
-                entity.put("userid", e.getUserId());
-                entities.put(entity);
-            }
-        }catch (JSONException jse){}
-        
-        response.setContentType("application/json");
-        response.getWriter().write(entities.toString());
-        
+        String userid = null;
+        if(request.getSession().getAttribute("map") != null && request.getSession().getAttribute("token") != null){
+                mp  = (Map<String, String>) request.getSession().getAttribute("map");
+                userid = mp.get(request.getSession().getAttribute("token"));
+            
+        	EntityForestDAO efd = (EntityForestDAO) new EntityForestPostgresDAO();
+            
+            List<EntityForest> list = (List<EntityForest>)efd.getDataUser(userid);
+            
+            JSONArray entities = new JSONArray();
+            JSONObject entity;
+            Iterator<EntityForest> it = list.iterator();
+            EntityForest e;
+            
+            try{
+                while(it.hasNext()){
+                    entity = new JSONObject();
+                    e = it.next();
+                    entity.put("year", e.getYear());
+                    entity.put("forest", e.getForest());
+                    entity.put("other_wooded_land", e.getOther_wooded_land());
+                    entity.put("other_land", e.getOther_land());
+                    entity.put("other_tree_cover", e.getOther_tree_cover());
+                    entity.put("inland_water_bodies", e.getInland_water_bodies());
+                    entity.put("userid", e.getUserId());
+                    entities.put(entity);
+                }
+            }catch (JSONException jse){}
+            
+            response.setContentType("application/json");
+            response.getWriter().write(entities.toString());
+            
+        }
     }
 
 

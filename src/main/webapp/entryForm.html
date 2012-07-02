@@ -5,9 +5,14 @@
     <script type="text/javascript" src="extjs/ext-debug.js"></script>
     <script type="text/javascript" src="formUser.js"></script>
     <script type="text/javascript" src="Base64.js"></script>
+    <script type="text/JavaScript">
+		function timedRefresh(timeoutPeriod) {
+			setTimeout("location.reload(true);",timeoutPeriod);
+		}
+	</script>
 </head>
 
-<body id="formUser">
+<body id="formUser" onload="JavaScript:timedRefresh(300000);">
 	<div id="grid-div"></div>
 	<div id="add-div"></div>
 	<div id="delete-div"></div>

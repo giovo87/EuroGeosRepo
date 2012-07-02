@@ -62,19 +62,21 @@ public class ForestServletDelete extends HttpServlet {
      * @param httpServletResponse The response object sent to the client
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Map<String,String> mp=new HashMap<String, String>();
-        mp  = (Map<String, String>) request.getSession().getAttribute("map");
-        String userid = mp.get(request.getSession().getAttribute("token"));
-        
-        response.setContentType("text/html");
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().println("<h1>Response:</h1>");
-        response.getWriter().println("Request received correctly!");
-        
-        EntityForestDAO efd = (EntityForestDAO) new EntityForestPostgresDAO();
-        
-        int year = Integer.parseInt(request.getParameter("year"));
-        efd.delete(userid, year);
+        if(request.getSession().getAttribute("map") != null && request.getSession().getAttribute("token") != null){
+            Map<String,String> mp=new HashMap<String, String>();
+            mp  = (Map<String, String>) request.getSession().getAttribute("map");
+            String userid = mp.get(request.getSession().getAttribute("token"));
+            
+            response.setContentType("text/html");
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.getWriter().println("<h1>Response:</h1>");
+            response.getWriter().println("Request received correctly!");
+            
+            EntityForestDAO efd = (EntityForestDAO) new EntityForestPostgresDAO();
+            
+            int year = Integer.parseInt(request.getParameter("year"));
+            efd.delete(userid, year);
+        }
     }
     
     
