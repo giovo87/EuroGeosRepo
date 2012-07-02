@@ -232,7 +232,7 @@ function loadTable1_4_a(){
 	     * Callback function called when a cell of the grid is ready
 	     */
 		grid.on('edit', function(editor, e) {
-			  if (e.rowIdx == 5 || e.value == e.originalValue) {
+			  if (e.rowIdx == 5 || e.value == e.originalValue || !check(e.value)) {
 			      e.record.data[e.field] = e.originalValue;
 			      e.record.commit();
 			  }

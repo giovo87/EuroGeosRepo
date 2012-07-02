@@ -67,16 +67,12 @@ public class Filter1 implements Filter {
         		httpRequest.getRequestURL().toString().contains("forestEnter")||
         		httpRequest.getRequestURL().toString().contains("categoriesUpdate")||
         		httpRequest.getRequestURL().toString().contains("categoriesUser")){
-        	System.out.println(httpRequest.getRequestURL().toString());
             
             Cookie[] cookies = httpRequest.getCookies();
         	if(cookies != null && cookies.length != 0){
-        		System.out.println("ho trovato dei cookies...");
         		for (int i = 0; i < cookies.length; i++){
-        			System.out.println(cookies[i].getValue());
         			if(httpRequest.getSession().getAttribute("token") != null &&
         					httpRequest.getSession().getAttribute("token").equals(cookies[i].getValue())){
-        				System.out.println("Utente gia loggato!!!");
         				chain.doFilter(httpRequest, httpResponse);
         				return;
         			}

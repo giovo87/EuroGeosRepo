@@ -53,6 +53,7 @@ Ext.onReady(function() {
         },
         {
         	id:'password',
+        	inputType:'password',
             fieldLabel: 'Password',
             afterLabelTextTpl: required,
             name: 'password',

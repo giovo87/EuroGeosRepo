@@ -21,6 +21,8 @@
 package org.table1_4_b.servlets;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -55,6 +57,9 @@ public class CategoriesServletUpdate extends HttpServlet {
      * @param httpServletResponse The response object sent to the client
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Map<String,String> mp=new HashMap<String, String>();
+        mp  = (Map<String, String>) request.getSession().getAttribute("map");
+        String userid = mp.get(request.getSession().getAttribute("token"));
         
         response.setContentType("text/html");
         response.setStatus(HttpServletResponse.SC_OK);
@@ -63,7 +68,7 @@ public class CategoriesServletUpdate extends HttpServlet {
         
         EntityCategoriesDAO efd = (EntityCategoriesDAO) new EntityCategoriesPostgresDAO();
         
-        String user = request.getParameter("userid");
+        String user = userid;
         String param = request.getParameter("param");
         String category = request.getParameter("category");
         String value = request.getParameter("value");

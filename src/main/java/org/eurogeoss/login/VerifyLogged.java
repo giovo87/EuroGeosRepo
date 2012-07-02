@@ -57,9 +57,7 @@ public class VerifyLogged extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	Cookie[] cookies = request.getCookies();
     	if(cookies != null && cookies.length != 0){
-    		System.out.println("ho trovato dei cookies...");
     		for (int i = 0; i < cookies.length; i++){
-    			System.out.println(cookies[i].getValue());
     			if(request.getSession().getAttribute("token") != null &&
     					request.getSession().getAttribute("token").equals(cookies[i].getValue())){
     				    response.sendRedirect("entryForm.html");

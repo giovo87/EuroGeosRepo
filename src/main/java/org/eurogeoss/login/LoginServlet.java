@@ -26,6 +26,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.ServletException;
@@ -63,40 +65,38 @@ public class LoginServlet extends HttpServlet {
     /**
      * Performs an HTTP GET request
      * 
+     * If an user submit a login request, if exists, the previous informations are deleted and a new login will be performed
+     * 
      * @param httpServletRequest The request object passed in by the servlet engine representing the client request
      * @param httpServletResponse The response object sent to the client
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	Cookie[] cookies = request.getCookies();
-    	if(cookies != null && cookies.length != 0){
-    		System.out.println("ho trovato dei cookies...");
-    		for (int i = 0; i < cookies.length; i++){
-    			System.out.println(cookies[i].getValue());
-    			if(request.getSession().getAttribute("token") != null &&
-    					request.getSession().getAttribute("token").equals(cookies[i].getValue())){
-    				System.out.println("Utente gia loggato!!!");
-    				response.setStatus(response.SC_OK);
-    				return;
-    			}
-    		}
-    	}
-    	/**
-    	 * NELLA GESTIONE DI QUESTA PAGINA BASTA CHE, ANCHE SE UNO ERA GIA
-    	 * LOGGATO, SI CANCELLI IL TUTTO IN CASO DI UN LOGIN NUOVO EFFETTUATO
-    	 * CORRETTAMENTE!!
-    	 */
     	String user = request.getParameter("username");
         String password = request.getParameter("password");
         if(checkInDb(user, password)){
-        	Random rand = new Random();
-        	String token = Long.toString(rand.nextLong());
-        	System.out.println("generato cookie: "+token);
+            Cookie[] cookies = request.getCookies();
+            if(cookies != null && cookies.length != 0){
+                    for (int i = 0; i < cookies.length; i++){
+                            if(request.getSession().getAttribute("token") != null &&
+                                            request.getSession().getAttribute("token").equals(cookies[i].getValue())){
+                                cookies[i].setMaxAge(-1);
+                                request.getSession().removeAttribute("token");
+                                request.getSession().removeAttribute("map");
+                                
+                            }
+                    }
+            }
+            Map<String,String> mp=new HashMap<String, String>();
+            Random rand = new Random();
+            String token = Long.toString(rand.nextLong());
             request.getSession().setAttribute("token", token);
-    		Cookie userCookie = new Cookie("session", token);
-    		userCookie.setMaxAge(60);
-    		response.addCookie(userCookie);
-    		response.setStatus(response.SC_OK);
-    		return;
+            Cookie userCookie = new Cookie("session", token);
+            userCookie.setMaxAge(60);
+            response.addCookie(userCookie);
+            mp.put(token, retrieveUserID(user, password));
+            request.getSession().setAttribute("map", mp);
+            response.setStatus(response.SC_OK);
+            return;
         }
         response.setStatus(response.SC_UNAUTHORIZED);
         return;
@@ -153,6 +153,31 @@ public class LoginServlet extends HttpServlet {
         {
                 System.out.println("Error..."+ex.getMessage());
                 return false;
+        }
+    }
+    
+    
+    /**
+     * Function called in order to retrieve the id of the user
+     * 
+     * @param username The request object passed in by the servlet engine representing the client request
+     * @param password The response object sent to the client
+     */
+    private String retrieveUserID(String username, String password){
+        try
+        {
+                Statement statement = dbcon.createStatement();
+                String query = "SELECT id ";
+                query +=       "FROM users ";
+                query +=       "WHERE username=\'"+username+"\' AND password=\'"+password+"\'";
+                ResultSet rs = statement.executeQuery(query);
+                rs.next();
+                return rs.getString("id");
+        }
+        catch(Exception ex)
+        {
+                System.out.println("Error..."+ex.getMessage());
+                return null;
         }
     }
     

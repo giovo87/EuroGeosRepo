@@ -21,8 +21,10 @@
 package org.table1_4_b.servlets;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -62,10 +64,13 @@ public class CategoriesServletUser extends HttpServlet {
      * @param httpServletResponse The response object sent to the client
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Map<String,String> mp=new HashMap<String, String>();
+        mp  = (Map<String, String>) request.getSession().getAttribute("map");
+        String userid = mp.get(request.getSession().getAttribute("token"));
         
         EntityCategoriesDAO efd = (EntityCategoriesDAO) new EntityCategoriesPostgresDAO();
         
-        List<EntityCategories> list = (List<EntityCategories>)efd.getDataUser(request.getParameter("userid"));
+        List<EntityCategories> list = (List<EntityCategories>)efd.getDataUser(userid);
 
         JSONArray entities = new JSONArray();
         JSONObject entity;

@@ -21,6 +21,8 @@
 package org.table1_4_a.servlets;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -60,6 +62,9 @@ public class ForestServletDelete extends HttpServlet {
      * @param httpServletResponse The response object sent to the client
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Map<String,String> mp=new HashMap<String, String>();
+        mp  = (Map<String, String>) request.getSession().getAttribute("map");
+        String userid = mp.get(request.getSession().getAttribute("token"));
         
         response.setContentType("text/html");
         response.setStatus(HttpServletResponse.SC_OK);
@@ -69,7 +74,6 @@ public class ForestServletDelete extends HttpServlet {
         EntityForestDAO efd = (EntityForestDAO) new EntityForestPostgresDAO();
         
         int year = Integer.parseInt(request.getParameter("year"));
-        String userid = request.getParameter("userid");
         efd.delete(userid, year);
     }
     

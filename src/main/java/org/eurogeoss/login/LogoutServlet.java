@@ -23,6 +23,7 @@ package org.eurogeoss.login;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -57,6 +58,18 @@ public class LogoutServlet extends HttpServlet {
      * @param httpServletResponse The response object sent to the client
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Cookie[] cookies = request.getCookies();
+        if(cookies != null && cookies.length != 0){
+            for (int i = 0; i < cookies.length; i++){
+                if(request.getSession().getAttribute("token") != null &&
+                                request.getSession().getAttribute("token").equals(cookies[i].getValue())){
+                    cookies[i].setMaxAge(-1);
+                    request.getSession().removeAttribute("token");
+                    request.getSession().removeAttribute("map");
+                }
+            }
+        }
+        response.sendRedirect("login.html");
     }
     
     
