@@ -22,7 +22,7 @@ Ext.require([
     '*'
 ]);
 
-var user;
+var user="pippo";
 
 var required = '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>';
 
@@ -53,63 +53,27 @@ function check(value){
 
 Ext.onReady(function() {
     Ext.QuickTips.init();
+    
+    Ext.Ajax.on('requestexception', exceptionHandlerMethod);
 
-    /**
-     * Define the form for login phase
-     * 
-     */
-    var simple = Ext.widget({
-        xtype: 'form',
-        layout: 'form',
-        collapsible: true,
-        id: 'forestUser',
-        url: 'forestUser',
-        frame: true,
-        title: 'Retrieve data user',
-        bodyPadding: '15 15 10',
-        width: 350,
-        fieldDefaults: {
-            msgTarget: 'side',
-            labelWidth: 75
-        },
-        defaultType: 'textfield',
-        items: [{
-        	id:'userid',
-            fieldLabel: 'UserID',
-            afterLabelTextTpl: required,
-            name: 'userid',
-            allowBlank:false
-        }],
-
-        buttons: [{
-            text: 'Submit',
-            handler: function(){
-            	user = Ext.getCmp('userid').getValue();
-            	loadTable1_4_a();
-            	showForm();
-            	loadTable1_4_b();
-            }
-        }
-        ,{
-            text: 'Cancel',
-            handler: function(){
-            	simple.getForm().reset();
-            }
-        }],
-        renderTo: Ext.get('login-div')
-    });
+	loadTable1_4_a();
+	showForm();
+	loadTable1_4_b();
 
 });
+
+function exceptionHandlerMethod(connection, response, requestOptions, listenerOptions) {
+    if(response.status == 401) {
+        alert('Server response with code 401. You will be redirected to the login page!');
+        window.location.href = "login.html";
+    }
+}
 
 /**
  * Function called in order to create the table 1_4_a
  */
 function loadTable1_4_a(){
 	
-	if (document.getElementById('login-div').hasChildNodes()) {
-		document.getElementById('login-div').removeChild(document.getElementById('login-div').childNodes[0]);
-	}
-
 	/**
      * Define the model for table 1_4_a data
      */
@@ -147,7 +111,6 @@ function loadTable1_4_a(){
      * Callback function called when the store is ready
      */
 	store.on('load', function() {
-		
 		// ////////////////////////////////////////////////////////
 		// in this function it's necessary to "convert" the store
 		// because new data in the table means new COLUMN!!!
@@ -287,7 +250,8 @@ function loadTable1_4_a(){
 	         			   userStore.commitChanges();
 	         		   },
 	         		   failure: function(response, opts) {
-	         		      alert('Operation failed!');
+	         			  if(response.status!=401)
+	         				  alert('Operation failed!');
 	         		      e.cancel = true;
 	     			      e.record.data[e.field] = e.originalValue;
 	     			      e.record.commit();
@@ -382,7 +346,8 @@ function showForm(){
 	         			   loadTable1_4_a(user);
 	         		   },
 	         		   failure: function(response, opts) {
-	         		      alert('Operation failed!');
+	         			  if(response.status!=401)
+	         				  alert('Operation failed!');
 	         		      enter.getForm().reset();
 	         		   }
 	            	});
@@ -439,7 +404,8 @@ function showForm(){
 	         			   loadTable1_4_a();
 	         		   },
 	         		   failure: function(response, opts) {
-	         		      alert('Operation failed!');
+	         			  if(response.status!=401)
+	         				  alert('Operation failed!');
 	         		      enter.getForm().reset();
 	         		   }
 	            	});
@@ -575,7 +541,8 @@ function loadTable1_4_b(){
 	         		   success: function() {
 	         		   },
 	         		   failure: function(response, opts) {
-	         		      alert('Operation failed!');
+	         			  if(response.status!=401)
+	         				  alert('Operation failed!');
 	         		      e.cancel = true;
 	     			      e.record.data[e.field] = e.originalValue;
 	     			      e.record.commit();

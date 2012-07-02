@@ -21,8 +21,6 @@
 package org.table1_4_a.servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -31,7 +29,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.table1_4_a.dao.EntityForestDAO;
 import org.table1_4_a.dao.EntityForestPostgresDAO;
-import org.table1_4_a.entity.EntityForest;
 
 /**
  * @author Gabriele Giovenco

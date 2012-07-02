@@ -4,7 +4,7 @@
  
   <modelVersion>4.0.0</modelVersion>
   <groupId>org</groupId>
-  <artifactId>eurogeoss</artifactId>
+  <artifactId>eurogeoss_home</artifactId>
   <version>0.1-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>Jetty eurogeoss</name>
@@ -18,6 +18,18 @@
         <groupId>org.json</groupId>
         <artifactId>json</artifactId>
         <version>20070829</version>
+  </dependency>
+  
+  <dependency>
+	<groupId>commons-codec</groupId>
+	<artifactId>commons-codec</artifactId>
+	<version>1.2</version>
+  </dependency>
+  
+  <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>r03</version>
   </dependency>
 
   <dependency>
