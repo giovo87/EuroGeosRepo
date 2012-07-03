@@ -39,6 +39,14 @@ var cellEditing1 = Ext.create('Ext.grid.plugin.CellEditing', {
     clicksToEdit: 2
 });
 
+
+var winDel;
+var winAdd;
+var enter;
+var del;
+
+
+
 /**
  * Performs control on passed value
  * 
@@ -54,17 +62,166 @@ function check(value){
 Ext.onReady(function() {
     Ext.QuickTips.init();
     
-    Ext.Ajax.on('requestexception', exceptionHandlerMethod);
+    /**
+     * Define insert form for table 1_4_a
+     */
+	enter = Ext.widget({
+	  xtype: 'form',
+	  layout: 'form',
+	  id: 'forestEnter',
+	  url: 'forestEnter',
+	  frame: true,
+	  title: 'Insert new entry in the DB for this user',
+	  bodyPadding: '15 15 10',
+	  width: 350,
+	  fieldDefaults: {
+	      msgTarget: 'side',
+	      labelWidth: 75
+	  },
+	  defaultType: 'textfield',
+	  items: [{
+	  	id:'year',
+	      fieldLabel: 'Year',
+	      afterLabelTextTpl: required,
+	      name: 'userid',
+	      allowBlank:false
+	  },{
+	  	id:'forest',
+	      fieldLabel: 'Forest',
+	      afterLabelTextTpl: required,
+	      name: 'userid',
+	      allowBlank:false
+	  },{
+	  	id:'other_wooded_land',
+	      fieldLabel: 'Other Wooded Land',
+	      afterLabelTextTpl: required,
+	      name: 'userid',
+	      allowBlank:false
+	  },{
+	  	id:'other_land',
+	      fieldLabel: 'Other Land',
+	      afterLabelTextTpl: required,
+	      name: 'userid',
+	      allowBlank:false
+	  },{
+	  	id:'other_tree_cover',
+	      fieldLabel: 'Other Tree Cover',
+	      afterLabelTextTpl: required,
+	      name: 'userid',
+	      allowBlank:false
+	  },{
+	  	id:'inland_water_bodies',
+	      fieldLabel: 'Inland Water Bodies',
+	      afterLabelTextTpl: required,
+	      name: 'userid',
+	      allowBlank:false
+	  }],
+	
+	  buttons: [{
+	      text: 'Submit',
+	      handler: function(){
+	      	if(check(Ext.getCmp('year').getValue()) &&
+	      			check(Ext.getCmp('forest').getValue()) &&
+	      			check(Ext.getCmp('other_wooded_land').getValue()) &&
+	      			check(Ext.getCmp('other_land').getValue()) &&
+	      			check(Ext.getCmp('other_tree_cover').getValue()) &&
+	      			check(Ext.getCmp('inland_water_bodies').getValue())){
+	          	Ext.Ajax.request({
+	       		   url: 'forestEnter?userid='+user+
+	       		   '&year='+Ext.getCmp('year').getValue()+
+	       		   '&forest='+Ext.getCmp('forest').getValue()+
+	       		   '&owl='+Ext.getCmp('other_wooded_land').getValue()+
+	       		   '&ol='+Ext.getCmp('other_land').getValue()+
+	       		   '&otc='+Ext.getCmp('other_tree_cover').getValue()+
+	       		   '&iwb='+Ext.getCmp('inland_water_bodies').getValue(),
+	       		   success: function(response, opts) {
+		         			   if(response.responseText.indexOf("formLogin") != -1){
+			     			      window.location.href = "login.html";
+		         			   }
+	       			   enter.getForm().reset();
+	       			   loadTable1_4_a(user);
+	       		   },
+	       		   failure: function(response, opts) {
+	       				  alert('Operation failed!');
+	       		      enter.getForm().reset();
+	       		   }
+	          	});
+	      	}
+	      	else
+	      		alert('Fields must be numbers >= 0!');
+	      		
+	      }
+	  }
+	  ,{
+	      text: 'Reset',
+	      handler: function(){
+	      	enter.getForm().reset();
+	      }
+	  }],
+	});
+	
+	/**
+     * Define the delete form for table 1_4_a 
+     */
+	del = Ext.widget({
+        xtype: 'form',
+        layout: 'form',
+        id: 'forestDelete',
+        url: 'forestDelete',
+        frame: true,
+        title: 'Delete an entry in the DB for this user',
+        bodyPadding: '15 15 10',
+        width: 350,
+        fieldDefaults: {
+            msgTarget: 'side',
+            labelWidth: 75
+        },
+        defaultType: 'textfield',
+        items: [
+          {
+        	id:'year-del',
+            fieldLabel: 'Year',
+            afterLabelTextTpl: required,
+            name: 'year',
+            allowBlank:false
+        }],
 
+        buttons: [{
+            text: 'Submit',
+            handler: function(){
+            	if(check(parseInt(Ext.getCmp('year-del').getValue()))){
+	            	Ext.Ajax.request({
+	         		   url: 'forestDelete?userid='+user+'&year='+Ext.getCmp('year-del').getValue(),
+	         		  success: function(response, opts) {
+	         			   if(response.responseText.indexOf("formLogin") != -1){
+		     			      window.location.href = "login.html";
+	         			   }
+	         			   del.getForm().reset();
+	         			   loadTable1_4_a();
+	         		   },
+	         		   failure: function(response, opts) {
+	         				  alert('Operation failed!');
+	         		      enter.getForm().reset();
+	         		   }
+	            	});
+            	}
+            	else
+            		alert('Field must be a number >= 0!');
+            }
+        }
+        ,{
+            text: 'Reset',
+            handler: function(){
+            	enter.getForm().reset();
+            }
+        }],
+    });
+    
 	loadTable1_4_a();
-	showForm();
 	loadTable1_4_b();
 
 });
 
-function exceptionHandlerMethod(connection, response, requestOptions, listenerOptions) {
-        window.location.href = "login.html";
-}
 
 /**
  * Function called in order to create the table 1_4_a
@@ -199,7 +356,7 @@ function loadTable1_4_a(){
 		// ///////////////////////////////////////////////////////////////////////
 		var cols = new Array(store.getCount());
 		for(var i = 0; i < store.getCount(); i++){
-			var col={ width : 75, sortable : false, dataIndex : ''+(i+1), text : store.getAt(i).get("year"), editor:{allowBlank: false}};
+			var col={ width : 50, sortable : false, menuDisabled:true, dataIndex : ''+(i+1), text : store.getAt(i).get("year"), editor:{allowBlank: false}};
 			cols[i] = col;
 		}
 		
@@ -210,19 +367,81 @@ function loadTable1_4_a(){
 	     * Define the dynamic grid for table 1_4_a data
 	     */
 		var grid = new Ext.grid.GridPanel({
+			tbar: [
+			       {   xtype: 'button',
+			    	   text: 'Add',
+			    	   icon: 'add.png',
+			    	   handler: function() {
+			    		   if (!winAdd) {
+			    	    		winAdd = Ext.create('widget.window', {
+			    	                title: 'Add Window',
+			    	                closable: true,
+			    	                closeAction: 'hide',
+			    	                width: 400,
+			    	                minWidth: 350,
+			    	                minHeight: 337,
+			    	                height: 337,
+			    	                layout: {
+			    	                    type: 'border',
+			    	                    padding: 5
+			    	                },
+			    	                items: [enter]
+			    	            });
+			    	    	}
+			    	    	if (winAdd.isVisible()) {
+			    	            winAdd.hide(this, function() {
+			    	            });
+			    	        } else {
+			    	            winAdd.show(this, function() {
+			    	            });
+			    	        }
+			    	   }
+			       },
+			       {
+			    	   xtype: 'button',
+			            text: 'Delete',
+			            icon: 'delete.png',
+			            handler: function() {
+			            	if (!winDel) {
+			            		winDel = Ext.create('widget.window', {
+			                        title: 'Delete Window',
+			                        closable: true,
+			                        closeAction: 'hide',
+			                        width: 400,
+			                        minWidth: 350,
+			                        height: 160,
+			                        minHeight: 160,
+			                        layout: {
+			                            type: 'border',
+			                            padding: 5
+			                        },
+			                        items: [del]
+			                    });
+			            	}
+			            	if (winDel.isVisible()) {
+			                    winDel.hide(this, function() {
+			                    });
+			                } else {
+			                    winDel.show(this, function() {
+			                    });
+			                }
+			            }
+			       }
+			     ],
 		    title: 'User data',
 		    store: userStore,
 		    columns: [
-				{ text:'FRA 2015 categories', dataIndex: '0', width: 200},
-				{ text: 'Area (1000 hectares)', columns: cols}
+				{ text:'FRA 2015 categories', dataIndex: '0', width: 110, sortable : false, menuDisabled:true},
+				{ text: 'Area (1000 hectares)', columns: cols, sortable : false, menuDisabled:true}
 			],
 		    selModel: {
 	            selType: 'cellmodel'
 	        },
 	        plugins: [cellEditing],
-		    height: 200,
-		    width: 910,
+		    height: 230,
+		    width: 602,
 		    renderTo: Ext.get('grid-div')
+		    
 		});
 		
 		/**
@@ -262,171 +481,6 @@ function loadTable1_4_a(){
 		});
 	});	
 	
-}
-
-/**
- * Function called in order to show the insert and the delete form for the table 1_4_a
- */
-function showForm(){
-	
-	/**
-     * Define insert form for table 1_4_a
-     */
-	var enter = Ext.widget({
-        xtype: 'form',
-        layout: 'form',
-        collapsible: true,
-        id: 'forestEnter',
-        url: 'forestEnter',
-        frame: true,
-        title: 'Insert new entry in the DB for this user',
-        bodyPadding: '15 15 10',
-        width: 350,
-        fieldDefaults: {
-            msgTarget: 'side',
-            labelWidth: 75
-        },
-        defaultType: 'textfield',
-        items: [{
-        	id:'forest',
-            fieldLabel: 'Forest',
-            afterLabelTextTpl: required,
-            name: 'userid',
-            allowBlank:false
-        },{
-        	id:'year',
-            fieldLabel: 'Year',
-            afterLabelTextTpl: required,
-            name: 'userid',
-            allowBlank:false
-        },{
-        	id:'other_wooded_land',
-            fieldLabel: 'Other Wooded Land',
-            afterLabelTextTpl: required,
-            name: 'userid',
-            allowBlank:false
-        },{
-        	id:'other_land',
-            fieldLabel: 'Other Land',
-            afterLabelTextTpl: required,
-            name: 'userid',
-            allowBlank:false
-        },{
-        	id:'other_tree_cover',
-            fieldLabel: 'Other Tree Cover',
-            afterLabelTextTpl: required,
-            name: 'userid',
-            allowBlank:false
-        },{
-        	id:'inland_water_bodies',
-            fieldLabel: 'Inland Water Bodies',
-            afterLabelTextTpl: required,
-            name: 'userid',
-            allowBlank:false
-        }],
-
-        buttons: [{
-            text: 'Submit',
-            handler: function(){
-            	if(check(Ext.getCmp('year').getValue()) &&
-            			check(Ext.getCmp('forest').getValue()) &&
-            			check(Ext.getCmp('other_wooded_land').getValue()) &&
-            			check(Ext.getCmp('other_land').getValue()) &&
-            			check(Ext.getCmp('other_tree_cover').getValue()) &&
-            			check(Ext.getCmp('inland_water_bodies').getValue())){
-	            	Ext.Ajax.request({
-	         		   url: 'forestEnter?userid='+user+
-	         		   '&year='+Ext.getCmp('year').getValue()+
-	         		   '&forest='+Ext.getCmp('forest').getValue()+
-	         		   '&owl='+Ext.getCmp('other_wooded_land').getValue()+
-	         		   '&ol='+Ext.getCmp('other_land').getValue()+
-	         		   '&otc='+Ext.getCmp('other_tree_cover').getValue()+
-	         		   '&iwb='+Ext.getCmp('inland_water_bodies').getValue(),
-	         		   success: function(response, opts) {
-		         			   if(response.responseText.indexOf("formLogin") != -1){
-			     			      window.location.href = "login.html";
-		         			   }
-	         			   enter.getForm().reset();
-	         			   loadTable1_4_a(user);
-	         		   },
-	         		   failure: function(response, opts) {
-	         				  alert('Operation failed!');
-	         		      enter.getForm().reset();
-	         		   }
-	            	});
-            	}
-            	else
-            		alert('Fields must be numbers >= 0!');
-            		
-            }
-        }
-        ,{
-            text: 'Cancel',
-            handler: function(){
-            	enter.getForm().reset();
-            }
-        }],
-        renderTo: Ext.get('add-div')
-    });
-	
-	/**
-     * Define the delete form for table 1_4_a 
-     */
-	var del = Ext.widget({
-        xtype: 'form',
-        layout: 'form',
-        collapsible: true,
-        id: 'forestDelete',
-        url: 'forestDelete',
-        frame: true,
-        title: 'Delete an entry in the DB for this user',
-        bodyPadding: '15 15 10',
-        width: 350,
-        fieldDefaults: {
-            msgTarget: 'side',
-            labelWidth: 75
-        },
-        defaultType: 'textfield',
-        items: [
-          {
-        	id:'year-del',
-            fieldLabel: 'Year',
-            afterLabelTextTpl: required,
-            name: 'year',
-            allowBlank:false
-        }],
-
-        buttons: [{
-            text: 'Submit',
-            handler: function(){
-            	if(check(parseInt(Ext.getCmp('year-del').getValue()))){
-	            	Ext.Ajax.request({
-	         		   url: 'forestDelete?userid='+user+'&year='+Ext.getCmp('year-del').getValue(),
-	         		  success: function(response, opts) {
-	         			   if(response.responseText.indexOf("formLogin") != -1){
-		     			      window.location.href = "login.html";
-	         			   }
-	         			   del.getForm().reset();
-	         			   loadTable1_4_a();
-	         		   },
-	         		   failure: function(response, opts) {
-	         				  alert('Operation failed!');
-	         		      enter.getForm().reset();
-	         		   }
-	            	});
-            	}
-            	else
-            		alert('Field must be a number >= 0!');
-            }
-        }
-        ,{
-            text: 'Cancel',
-            handler: function(){
-            	enter.getForm().reset();
-            }
-        }],
-        renderTo: Ext.get('delete-div')
-    });
 }
 
 
@@ -475,11 +529,15 @@ function loadTable1_4_b(){
 		    store: storeCategories,
 		    columns: [
 				{ 
+					sortable : false,
+					menuDisabled:true,
 					text:'Variable/category',
 					dataIndex: 'category',
 					width: 200
 				},
 				{ 
+					sortable : false,
+					menuDisabled:true,
 					id: 'tier_for_reported_trend',
 					text: 'Tier for reported trend',
 					dataIndex: 'tier_for_reported_trend',
@@ -500,6 +558,8 @@ function loadTable1_4_b(){
 		            width: 200
 				},
 	            { 
+					sortable : false,
+					menuDisabled:true,
 					text: 'Tier for status',
 					id: 'tier_for_status',
 					dataIndex: 'tier_for_status',
@@ -523,8 +583,8 @@ function loadTable1_4_b(){
 	            selType: 'cellmodel'
 	        },
 	        plugins: [cellEditing1],
-		    height: 200,
-		    width: 700,
+		    height: 158,
+		    width: 602,
 		    renderTo: Ext.get('grid1_4_b-div')
 		});
 		

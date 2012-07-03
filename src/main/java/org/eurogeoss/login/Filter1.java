@@ -73,7 +73,6 @@ public class Filter1 implements Filter {
         			if(httpRequest.getSession().getAttribute("token") != null &&
         					httpRequest.getSession().getAttribute("token").equals(cookies[i].getValue())){
         			    if(httpRequest.getRequestURL().toString().contains("login.html")){
-        			        System.out.println("HI!!");
         			        httpResponse.sendRedirect("entryForm.html");
         			        return;
         			    }

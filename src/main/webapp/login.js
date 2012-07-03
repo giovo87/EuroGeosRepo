@@ -86,6 +86,7 @@ Ext.onReady(function() {
             	simple.getForm().reset();
             }
         }],
-        renderTo: Ext.get('login-div')
+        style: 'margin:0 auto;margin-top:100px;',
+        renderTo: Ext.getBody()
     });
 });
