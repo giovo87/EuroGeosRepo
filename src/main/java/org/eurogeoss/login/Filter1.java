@@ -59,7 +59,7 @@ public class Filter1 implements Filter {
             final FilterChain chain ) throws IOException, ServletException {
         final HttpServletRequest httpRequest = (HttpServletRequest) request;
         final HttpServletResponse httpResponse = (HttpServletResponse) response;
-        if(/*httpRequest.getRequestURL().toString().contains("login.html")||*/
+        if(httpRequest.getRequestURL().toString().contains("login.html")||
         		httpRequest.getRequestURL().toString().contains("entryForm.html")||
         		httpRequest.getRequestURL().toString().contains("forestUser")||
         		httpRequest.getRequestURL().toString().contains("forestUpdate")||
@@ -67,27 +67,25 @@ public class Filter1 implements Filter {
         		httpRequest.getRequestURL().toString().contains("forestEnter")||
         		httpRequest.getRequestURL().toString().contains("categoriesUpdate")||
         		httpRequest.getRequestURL().toString().contains("categoriesUser")){
-            Cookie[] cookies = httpRequest.getCookies();
+                Cookie[] cookies = httpRequest.getCookies();
         	if(cookies != null && cookies.length != 0){
         		for (int i = 0; i < cookies.length; i++){
         			if(httpRequest.getSession().getAttribute("token") != null &&
         					httpRequest.getSession().getAttribute("token").equals(cookies[i].getValue())){
-        				chain.doFilter(httpRequest, httpResponse);
-        				return;
+        			    if(httpRequest.getRequestURL().toString().contains("login.html")){
+        			        System.out.println("HI!!");
+        			        httpResponse.sendRedirect("entryForm.html");
+        			        return;
+        			    }
+        			    chain.doFilter(httpRequest, httpResponse);
+        			    return;
         			}
         		}
         	}
-//        	httpResponse.setHeader("Access-Control-Allow-Origin", "*");
-//        	httpResponse.sendRedirect("login.html");
-//        	httpResponse.sendError(httpResponse.SC_FOUND);
-//        	httpResponse.setHeader("Location", "login.html");
-//        	httpResponse.setStatus(httpResponse.SC_SEE_OTHER);
-//        	httpResponse.getWriter().println("ERROR");
-//        	httpResponse.setStatus(httpResponse.SC_MOVED_TEMPORARILY);
-        	httpResponse.sendRedirect("login.html");
-//        	chain.doFilter(httpRequest, httpResponse);
-            	
-        	return;
+        	if(!httpRequest.getRequestURL().toString().contains("login.html")){
+        	    httpResponse.sendRedirect("login.html");
+        	    return;
+        	}
         }
         chain.doFilter(httpRequest, httpResponse);
     }

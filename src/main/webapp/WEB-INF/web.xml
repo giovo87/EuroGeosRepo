@@ -35,6 +35,10 @@
  		<filter-name>auth</filter-name> 
  		<url-pattern>/categoriesUser</url-pattern> 
  	</filter-mapping>
+ 	<filter-mapping>
+ 		<filter-name>auth</filter-name> 
+ 		<url-pattern>/login.html</url-pattern> 
+ 	</filter-mapping>
 
 
 	<servlet>
@@ -118,8 +122,6 @@
 		<servlet-name>verify</servlet-name>
 		<url-pattern>/verify</url-pattern>
 	</servlet-mapping>
-	
-
 	
 	<persistence-unit-ref>
 		<persistence-unit-ref-name>src/main/resources/eurogeos-unit</persistence-unit-ref-name>
