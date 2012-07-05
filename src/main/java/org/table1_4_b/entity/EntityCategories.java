@@ -37,39 +37,18 @@ public class EntityCategories implements Serializable{
     private static final long serialVersionUID = 1L;
     
     @Id
-    @Column(name="userid")
-    private String userId;
-    
+    private PkCategory pkCategory;
     /**
-     * @return the userId
+     * @return the composite pk
      */
-    public String getUserId() {
-            return userId;
+    public PkCategory getPkCategory(){
+        return pkCategory;
     }
-
     /**
-     * @param userId the userId to set
+     * @param pkCategory the PkCategory to set
      */
-    public void setUserId(String userId ) {
-            this.userId = userId;
-    }
-    
-    @Id
-    @Column(name="category")
-    private String category;
-    
-    /**
-     * @return the category
-     */
-    public String getCategory() {
-            return category;
-    }
-
-    /**
-     * @param category the category to set
-     */
-    public void setCategory(String category) {
-            this.category = category;
+    public void setPkCategory(PkCategory pkCategory){
+        this.pkCategory = pkCategory;
     }
     
     

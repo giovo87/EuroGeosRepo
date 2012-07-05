@@ -38,6 +38,7 @@ import org.json.JSONObject;
 import org.table1_4_a.dao.EntityForestDAO;
 import org.table1_4_a.dao.EntityForestPostgresDAO;
 import org.table1_4_a.entity.EntityForest;
+import org.table1_4_a.entity.PkForest;
 
 /**
  * @author Gabriele Giovenco
@@ -82,19 +83,20 @@ public class ForestServletUser extends HttpServlet {
             JSONObject entity;
             Iterator<EntityForest> it = list.iterator();
             EntityForest e;
+             
             
             try{
                 while(it.hasNext()){
                     entity = new JSONObject();
                     e = it.next();
 //                    System.out.println(e.getYear() + " " + e.getForest() + " " + e.getOther_wooded_land() + " " + e.getOther_land() + " " + e.getOther_tree_cover() + " " + e.getInland_water_bodies() + " " + e.getUserId());
-                    entity.put("year", e.getYear());
+                    entity.put("year", e.getPkForest().getYear());
                     entity.put("forest", e.getForest());
                     entity.put("other_wooded_land", e.getOther_wooded_land());
                     entity.put("other_land", e.getOther_land());
                     entity.put("other_tree_cover", e.getOther_tree_cover());
                     entity.put("inland_water_bodies", e.getInland_water_bodies());
-                    entity.put("userid", e.getUserId());
+                    entity.put("userid", e.getPkForest().getUserId());
                     entities.put(entity);
                 }
             }catch (JSONException jse){}

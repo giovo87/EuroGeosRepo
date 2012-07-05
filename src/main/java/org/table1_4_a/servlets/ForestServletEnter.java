@@ -32,6 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.table1_4_a.dao.EntityForestDAO;
 import org.table1_4_a.dao.EntityForestPostgresDAO;
 import org.table1_4_a.entity.EntityForest;
+import org.table1_4_a.entity.PkForest;
 
 /**
  * @author Gabriele Giovenco
@@ -75,8 +76,10 @@ public class ForestServletEnter extends HttpServlet {
             
             EntityForest ef = new EntityForest();
             
-            ef.setUserId(userid);
-            ef.setYear(Integer.parseInt(request.getParameter("year")));
+            PkForest pk = new PkForest(userid, Integer.parseInt(request.getParameter("year")));
+            ef.setPkForest(pk);
+//            ef.setUserId(userid);
+//            ef.setYear(Integer.parseInt(request.getParameter("year")));
             ef.setForest(Integer.parseInt(request.getParameter("forest")));
             ef.setOther_wooded_land(Integer.parseInt(request.getParameter("owl")));
             ef.setOther_land(Integer.parseInt(request.getParameter("ol")));

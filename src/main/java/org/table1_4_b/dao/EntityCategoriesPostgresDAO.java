@@ -56,7 +56,7 @@ public class EntityCategoriesPostgresDAO implements EntityCategoriesDAO{
     public List<EntityCategories> getDataUser(String user) {
         emf = Persistence.createEntityManagerFactory("eurogeos-unit");
         EntityManager em = emf.createEntityManager();
-        Query q = em.createQuery("SELECT e FROM EntityCategories e WHERE e.userId =  ?1");
+        Query q = em.createQuery("SELECT e FROM EntityCategories e WHERE e.pkCategory.userId =  ?1");
         q.setParameter(1, user);
         return q.getResultList();
     }
@@ -73,7 +73,7 @@ public class EntityCategoriesPostgresDAO implements EntityCategoriesDAO{
         emf = Persistence.createEntityManagerFactory("eurogeos-unit");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        Query q = em.createQuery("UPDATE EntityCategories e SET e." + param + " = ?1 WHERE e.userId = ?2 AND e.category = ?3");
+        Query q = em.createQuery("UPDATE EntityCategories e SET e." + param + " = ?1 WHERE e.pkCategory.userId = ?2 AND e.pkCategory.category = ?3");
         q.setParameter(1, value);
         q.setParameter(2, user);
         q.setParameter(3, category);

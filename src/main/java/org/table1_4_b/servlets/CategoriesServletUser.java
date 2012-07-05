@@ -82,7 +82,7 @@ public class CategoriesServletUser extends HttpServlet {
                 while(it.hasNext()){
                     e = it.next();
                     entity = new JSONObject();
-                    entity.put("category", e.getCategory());
+                    entity.put("category", e.getPkCategory().getCategory());
                     entity.put("tier_for_reported_trend", e.getTier_for_reported_trend());
                     entity.put("tier_for_status", e.getTier_for_status());
                     entities.put(entity);

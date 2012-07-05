@@ -215,7 +215,7 @@ Ext.onReady(function() {
         ,{
             text: 'Reset',
             handler: function(){
-            	enter.getForm().reset();
+            	del.getForm().reset();
             }
         }],
     });
@@ -224,25 +224,37 @@ Ext.onReady(function() {
 	loadTable1_4_b();
 	
 	var viewport = new Ext.Viewport({
+		minWidth: 600,
+        minHeight: 400,
         renderTo: Ext.getBody(),
         layout:'border',
         items:[{
-            title:'User\'s tables',
-            region:'north',
-            id:'northArea',
-            split:true,
-            width: 200,
-            minSize: 175,
-            maxSize: 400,
-            items: grid
-        },{
             region:'center',
             id:'centerArea',
-            split:true,
             width: 200,
             minSize: 175,
             maxSize: 400,
-            items: gridCat
+            items: [grid,
+                    gridCat]
+        },{
+        	title:'Banner area',
+        	region: "north",
+        	xtype: 'toolbar',
+        	items: [{
+        		xtype: 'button',
+        		text: 'Logout',
+        		handler: function(btn){
+        			Ext.Ajax.request({
+   	         		   url: 'logout',
+   	         		   success: function(response, opts) {
+   	         			   window.location.href = "login.html";
+   	         		   },
+   	         		   failure: function(response, opts) {
+   	         			   window.location.href = "login.html";
+   	         		   }
+   	         	  });
+        		}
+        	}]
         }]
     });
 

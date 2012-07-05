@@ -33,43 +33,21 @@ import javax.persistence.*;
 @Table(name="foresttable")
 public class EntityForest implements Serializable{
     
+    public EntityForest(){}
+    
     /** serialVersionUID */
     private static final long serialVersionUID = 1L;
     
     @Id
-    @Column(name="userid")
-    private String userId;
-    
+    private PkForest pkForest;
     /**
-     * @return the userId
+     * @return the composite pk
      */
-    public String getUserId() {
-            return userId;
+    public PkForest getPkForest(){
+        return pkForest;
     }
-
-    /**
-     * @param userId the userId to set
-     */
-    public void setUserId(String userId ) {
-            this.userId = userId;
-    }
-    
-    @Id
-    @Column(name="year")
-    private int year;
-    
-    /**
-     * @return the year
-     */
-    public int getYear() {
-            return year;
-    }
-
-    /**
-     * @param year the year to set
-     */
-    public void setYear(int year) {
-            this.year = year;
+    public void setPkForest(PkForest pkForest){
+        this.pkForest = pkForest;
     }
     
     
