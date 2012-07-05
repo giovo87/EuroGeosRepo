@@ -9,7 +9,7 @@
       <property name="hibernate.connection.username" value="postgres"/>
       <property name="hibernate.connection.password" value="postgres"/>
       <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/eurogeos"/>
-      <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+<!--       <property name="hibernate.hbm2ddl.auto" value="create-drop"/> -->
       <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
     </properties>
   </persistence-unit>

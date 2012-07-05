@@ -21,6 +21,9 @@
 package org.eurogeoss.login;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -73,6 +76,7 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	String user = request.getParameter("username");
         String password = request.getParameter("password");
+        System.out.println(scramble(password));
         if(checkInDb(user, password)){
             Cookie[] cookies = request.getCookies();
             if(cookies != null && cookies.length != 0){
@@ -179,6 +183,42 @@ public class LoginServlet extends HttpServlet {
                 System.out.println("Error..."+ex.getMessage());
                 return null;
         }
+    }
+    
+    /**
+    * SHA-1 Cryptographic hash algorithm
+    * 
+    * @param text  password to digest
+    * @return      the hexadecimal encoded string
+    */
+    public static String scramble(String text)
+    {
+            try {
+                    MessageDigest md = MessageDigest.getInstance("SHA-1") ;
+                    md.update(text.getBytes("UTF-8"));
+                    return getHex(md.digest());
+            }
+            catch (UnsupportedEncodingException e) { return null; }
+            catch (NoSuchAlgorithmException e)     { return null; }
+    }
+    
+    /**
+    * Convert byte array in hexadecimal encoded string
+    * 
+    * @param raw
+    * @return the hexadecimal encoded string
+    */
+    private static final String HEXES = "0123456789abcdef";
+    private static String getHex(byte[] raw) {
+        if (raw == null) {
+            return null;
+        }
+        final StringBuilder hex = new StringBuilder(2 * raw.length);
+        for (final byte b : raw) {
+            hex.append(HEXES.charAt((b & 0xF0) >> 4)).append(
+            HEXES.charAt((b & 0x0F)));
+        }
+        return hex.toString();
     }
     
 }

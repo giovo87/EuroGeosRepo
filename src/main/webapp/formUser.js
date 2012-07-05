@@ -45,6 +45,9 @@ var winAdd;
 var enter;
 var del;
 
+var grid;
+var gridCat;
+
 
 
 /**
@@ -219,6 +222,29 @@ Ext.onReady(function() {
     
 	loadTable1_4_a();
 	loadTable1_4_b();
+	
+	var viewport = new Ext.Viewport({
+        renderTo: Ext.getBody(),
+        layout:'border',
+        items:[{
+            title:'User\'s tables',
+            region:'north',
+            id:'northArea',
+            split:true,
+            width: 200,
+            minSize: 175,
+            maxSize: 400,
+            items: grid
+        },{
+            region:'center',
+            id:'centerArea',
+            split:true,
+            width: 200,
+            minSize: 175,
+            maxSize: 400,
+            items: gridCat
+        }]
+    });
 
 });
 
@@ -258,7 +284,12 @@ function loadTable1_4_a(){
 	        }
 	    }
 	});
-	store.load();
+	store.load({
+		    callback: function (records, operation, success) {
+		    	if(operation.response == undefined)
+		    		window.location.href = "login.html";
+		    }
+	    });
 	store.sort('year', 'ASC');
 	
 	/**
@@ -366,10 +397,10 @@ function loadTable1_4_a(){
 		/**
 	     * Define the dynamic grid for table 1_4_a data
 	     */
-		var grid = new Ext.grid.GridPanel({
+		grid = new Ext.grid.GridPanel({
 			tbar: [
 			       {   xtype: 'button',
-			    	   text: 'Add',
+			    	   text: 'Add column',
 			    	   icon: 'add.png',
 			    	   handler: function() {
 			    		   if (!winAdd) {
@@ -398,8 +429,8 @@ function loadTable1_4_a(){
 			    	   }
 			       },
 			       {
-			    	   xtype: 'button',
-			            text: 'Delete',
+			    	    xtype: 'button',
+			            text: 'Delete column',
 			            icon: 'delete.png',
 			            handler: function() {
 			            	if (!winDel) {
@@ -440,6 +471,7 @@ function loadTable1_4_a(){
 	        plugins: [cellEditing],
 		    height: 230,
 		    width: 602,
+		    style: 'margin:0 auto;margin-top:100px;',
 		    renderTo: Ext.get('grid-div')
 		    
 		});
@@ -514,7 +546,12 @@ function loadTable1_4_b(){
 	        }
 	    }
 	});
-	storeCategories.load();
+	storeCategories.load({
+	    callback: function (records, operation, success) {
+	    	if(operation.response == undefined)
+	    		window.location.href = "login.html";
+	    }
+    });
 	
 	/**
      * Callback function called when the store is ready
@@ -524,7 +561,7 @@ function loadTable1_4_b(){
 		/**
 	     * Define the grid for table 1_4_b
 	     */
-		var gridCat = new Ext.grid.GridPanel({
+		gridCat = new Ext.grid.GridPanel({
 		    title: 'Categories',
 		    store: storeCategories,
 		    columns: [
@@ -585,6 +622,7 @@ function loadTable1_4_b(){
 	        plugins: [cellEditing1],
 		    height: 158,
 		    width: 602,
+		    style: 'margin:0 auto;margin-top:100px;',
 		    renderTo: Ext.get('grid1_4_b-div')
 		});
 		

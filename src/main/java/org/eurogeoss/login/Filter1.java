@@ -76,16 +76,19 @@ public class Filter1 implements Filter {
         			        httpResponse.sendRedirect("entryForm.html");
         			        return;
         			    }
+        			    System.out.println("(1)"+httpRequest.getRequestURL().toString());
         			    chain.doFilter(httpRequest, httpResponse);
         			    return;
         			}
         		}
         	}
         	if(!httpRequest.getRequestURL().toString().contains("login.html")){
+        	    System.out.println("(2)"+httpRequest.getRequestURL().toString());
         	    httpResponse.sendRedirect("login.html");
         	    return;
         	}
         }
+        System.out.println("(3)"+httpRequest.getRequestURL().toString());
         chain.doFilter(httpRequest, httpResponse);
     }
     

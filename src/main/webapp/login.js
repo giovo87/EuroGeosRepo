@@ -81,7 +81,7 @@ Ext.onReady(function() {
             }
         }
         ,{
-            text: 'Cancel',
+            text: 'Reset',
             handler: function(){
             	simple.getForm().reset();
             }

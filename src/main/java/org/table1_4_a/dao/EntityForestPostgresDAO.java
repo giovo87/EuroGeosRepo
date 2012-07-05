@@ -68,6 +68,7 @@ public class EntityForestPostgresDAO implements EntityForestDAO {
     public List<EntityForest> getDataUser(String user) {
         emf = Persistence.createEntityManagerFactory("eurogeos-unit");
         EntityManager em = emf.createEntityManager();
+        System.out.println(user);
         Query q = em.createQuery("SELECT e FROM EntityForest e WHERE e.userId =  ?1");
         q.setParameter(1, user);
         return q.getResultList();

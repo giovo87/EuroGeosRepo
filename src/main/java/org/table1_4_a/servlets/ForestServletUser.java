@@ -87,6 +87,7 @@ public class ForestServletUser extends HttpServlet {
                 while(it.hasNext()){
                     entity = new JSONObject();
                     e = it.next();
+//                    System.out.println(e.getYear() + " " + e.getForest() + " " + e.getOther_wooded_land() + " " + e.getOther_land() + " " + e.getOther_tree_cover() + " " + e.getInland_water_bodies() + " " + e.getUserId());
                     entity.put("year", e.getYear());
                     entity.put("forest", e.getForest());
                     entity.put("other_wooded_land", e.getOther_wooded_land());
