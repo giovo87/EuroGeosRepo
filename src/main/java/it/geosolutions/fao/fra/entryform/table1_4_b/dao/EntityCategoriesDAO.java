@@ -18,10 +18,11 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.table1_4_b.dao;
+package it.geosolutions.fao.fra.entryform.table1_4_b.dao;
+
+import it.geosolutions.fao.fra.entryform.table1_4_b.entity.*;
 
 import java.util.List;
-import org.table1_4_b.entity.*;
 
 
 /**

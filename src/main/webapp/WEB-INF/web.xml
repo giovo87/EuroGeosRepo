@@ -5,7 +5,7 @@
 
  	<filter> 
    		<filter-name>auth</filter-name> 
-   		<filter-class>org.eurogeoss.login.Filter1</filter-class> 
+   		<filter-class>it.geosolutions.fao.fra.entryform.login.Filter1</filter-class> 
  	</filter> 
  	<filter-mapping>
  		<filter-name>auth</filter-name> 
@@ -43,44 +43,44 @@
 
 	<servlet>
 		<servlet-name>logout</servlet-name>
-		<servlet-class>org.eurogeoss.login.LogoutServlet</servlet-class>
+		<servlet-class>it.geosolutions.fao.fra.entryform.login.LogoutServlet</servlet-class>
 	</servlet>
 	
 	<servlet>
 		<servlet-name>login</servlet-name>
-		<servlet-class>org.eurogeoss.login.LoginServlet</servlet-class>
+		<servlet-class>it.geosolutions.fao.fra.entryform.login.LoginServlet</servlet-class>
 	</servlet>
 	
 	<servlet>
 		<servlet-name>verify</servlet-name>
-		<servlet-class>org.eurogeoss.login.VerifyLogged</servlet-class>
+		<servlet-class>it.geosolutions.fao.fra.entryform.login.VerifyLogged</servlet-class>
 		<load-on-startup>0</load-on-startup>
 	</servlet>
 	
 	<servlet>
 		<servlet-name>forestEnter</servlet-name>
-		<servlet-class>org.table1_4_a.servlets.ForestServletEnter</servlet-class>
+		<servlet-class>it.geosolutions.fao.fra.entryform.table1_4_a.servlets.ForestServletEnter</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>forestDelete</servlet-name>
-		<servlet-class>org.table1_4_a.servlets.ForestServletDelete</servlet-class>
+		<servlet-class>it.geosolutions.fao.fra.entryform.table1_4_a.servlets.ForestServletDelete</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>forestUpdate</servlet-name>
-		<servlet-class>org.table1_4_a.servlets.ForestServletUpdate</servlet-class>
+		<servlet-class>it.geosolutions.fao.fra.entryform.table1_4_a.servlets.ForestServletUpdate</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>forestUser</servlet-name>
-		<servlet-class>org.table1_4_a.servlets.ForestServletUser</servlet-class>
+		<servlet-class>it.geosolutions.fao.fra.entryform.table1_4_a.servlets.ForestServletUser</servlet-class>
 	</servlet>
 	
 	<servlet>
 		<servlet-name>categoriesUser</servlet-name>
-		<servlet-class>org.table1_4_b.servlets.CategoriesServletUser</servlet-class>
+		<servlet-class>it.geosolutions.fao.fra.entryform.table1_4_b.servlets.CategoriesServletUser</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>categoriesUpdate</servlet-name>
-		<servlet-class>org.table1_4_b.servlets.CategoriesServletUpdate</servlet-class>
+		<servlet-class>it.geosolutions.fao.fra.entryform.table1_4_b.servlets.CategoriesServletUpdate</servlet-class>
 	</servlet>
 
 	<servlet-mapping>

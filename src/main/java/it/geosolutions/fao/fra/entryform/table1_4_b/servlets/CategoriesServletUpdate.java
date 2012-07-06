@@ -18,7 +18,10 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.table1_4_a.servlets;
+package it.geosolutions.fao.fra.entryform.table1_4_b.servlets;
+
+import it.geosolutions.fao.fra.entryform.table1_4_b.dao.EntityCategoriesDAO;
+import it.geosolutions.fao.fra.entryform.table1_4_b.dao.EntityCategoriesPostgresDAO;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -29,8 +32,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.table1_4_a.dao.EntityForestDAO;
-import org.table1_4_a.dao.EntityForestPostgresDAO;
 
 /**
  * @author Gabriele Giovenco
@@ -40,17 +41,13 @@ import org.table1_4_a.dao.EntityForestPostgresDAO;
 /**
  * Servlet implementation
  */
-public class ForestServletUpdate extends HttpServlet {
-
-    /**
-     * Serialization UID.
-     */
-    private static final long serialVersionUID = 1L;
+public class CategoriesServletUpdate extends HttpServlet {
+        private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ForestServletUpdate() {
+    public CategoriesServletUpdate() {
         super();
     }
 
@@ -71,18 +68,17 @@ public class ForestServletUpdate extends HttpServlet {
             response.getWriter().println("<h1>Response:</h1>");
             response.getWriter().println("Request received correctly!");
             
-            EntityForestDAO efd = (EntityForestDAO) new EntityForestPostgresDAO();
+            EntityCategoriesDAO efd = (EntityCategoriesDAO) new EntityCategoriesPostgresDAO();
             
             String user = userid;
-            int year = Integer.parseInt(request.getParameter("year"));
             String param = request.getParameter("param");
-            int value = Integer.parseInt(request.getParameter("value"));
+            String category = request.getParameter("category");
+            String value = request.getParameter("value");
             
-            efd.update(user, year, param, value);
+            efd.update(user, param, category, value);
         }
     }
 
-    
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     }
 

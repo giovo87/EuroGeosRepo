@@ -18,35 +18,36 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.table1_4_b.servlets;
+package it.geosolutions.fao.fra.entryform.login;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.table1_4_b.dao.EntityCategoriesDAO;
-import org.table1_4_b.dao.EntityCategoriesPostgresDAO;
 
 /**
  * @author Gabriele Giovenco
  *
  */
 
+
 /**
  * Servlet implementation
  */
-public class CategoriesServletUpdate extends HttpServlet {
-        private static final long serialVersionUID = 1L;
+public class LogoutServlet extends HttpServlet {
+    
+    /**
+     * Serialization UID.
+     */
+    private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CategoriesServletUpdate() {
+    public LogoutServlet() {
         super();
     }
 
@@ -57,27 +58,21 @@ public class CategoriesServletUpdate extends HttpServlet {
      * @param httpServletResponse The response object sent to the client
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(request.getSession().getAttribute("map") != null && request.getSession().getAttribute("token") != null){
-            Map<String,String> mp=new HashMap<String, String>();
-            mp  = (Map<String, String>) request.getSession().getAttribute("map");
-            String userid = mp.get(request.getSession().getAttribute("token"));
-            
-            response.setContentType("text/html");
-            response.setStatus(HttpServletResponse.SC_OK);
-            response.getWriter().println("<h1>Response:</h1>");
-            response.getWriter().println("Request received correctly!");
-            
-            EntityCategoriesDAO efd = (EntityCategoriesDAO) new EntityCategoriesPostgresDAO();
-            
-            String user = userid;
-            String param = request.getParameter("param");
-            String category = request.getParameter("category");
-            String value = request.getParameter("value");
-            
-            efd.update(user, param, category, value);
+        Cookie[] cookies = request.getCookies();
+        if(cookies != null && cookies.length != 0){
+            for (int i = 0; i < cookies.length; i++){
+                if(request.getSession().getAttribute("token") != null &&
+                                request.getSession().getAttribute("token").equals(cookies[i].getValue())){
+                    cookies[i].setMaxAge(-1);
+                    request.getSession().removeAttribute("token");
+                    request.getSession().removeAttribute("map");
+                }
+            }
         }
+        response.sendRedirect("login.html");
     }
-
+    
+    
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     }
 

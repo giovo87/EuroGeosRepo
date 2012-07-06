@@ -18,7 +18,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.table1_4_a.entity;
+package it.geosolutions.fao.fra.entryform.table1_4_a.entity;
 
 import java.io.Serializable;
 

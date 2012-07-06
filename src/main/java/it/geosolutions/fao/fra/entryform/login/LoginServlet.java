@@ -18,7 +18,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eurogeoss.login;
+package it.geosolutions.fao.fra.entryform.login;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

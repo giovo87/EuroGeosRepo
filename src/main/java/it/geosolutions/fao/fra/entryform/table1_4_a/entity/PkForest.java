@@ -1,4 +1,4 @@
-package org.table1_4_a.entity;
+package it.geosolutions.fao.fra.entryform.table1_4_a.entity;
 
 import java.io.Serializable;
 import javax.persistence.Embeddable;

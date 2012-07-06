@@ -18,7 +18,10 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.table1_4_a.servlets;
+package it.geosolutions.fao.fra.entryform.table1_4_a.servlets;
+
+import it.geosolutions.fao.fra.entryform.table1_4_a.dao.EntityForestDAO;
+import it.geosolutions.fao.fra.entryform.table1_4_a.dao.EntityForestPostgresDAO;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -29,10 +32,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.table1_4_a.dao.EntityForestDAO;
-import org.table1_4_a.dao.EntityForestPostgresDAO;
-import org.table1_4_a.entity.EntityForest;
-import org.table1_4_a.entity.PkForest;
 
 /**
  * @author Gabriele Giovenco
@@ -42,7 +41,8 @@ import org.table1_4_a.entity.PkForest;
 /**
  * Servlet implementation
  */
-public class ForestServletEnter extends HttpServlet {
+public class ForestServletUpdate extends HttpServlet {
+
     /**
      * Serialization UID.
      */
@@ -51,7 +51,7 @@ public class ForestServletEnter extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ForestServletEnter() {
+    public ForestServletUpdate() {
         super();
     }
 
@@ -74,24 +74,16 @@ public class ForestServletEnter extends HttpServlet {
             
             EntityForestDAO efd = (EntityForestDAO) new EntityForestPostgresDAO();
             
-            EntityForest ef = new EntityForest();
+            String user = userid;
+            int year = Integer.parseInt(request.getParameter("year"));
+            String param = request.getParameter("param");
+            int value = Integer.parseInt(request.getParameter("value"));
             
-            PkForest pk = new PkForest(userid, Integer.parseInt(request.getParameter("year")));
-            ef.setPkForest(pk);
-//            ef.setUserId(userid);
-//            ef.setYear(Integer.parseInt(request.getParameter("year")));
-            ef.setForest(Integer.parseInt(request.getParameter("forest")));
-            ef.setOther_wooded_land(Integer.parseInt(request.getParameter("owl")));
-            ef.setOther_land(Integer.parseInt(request.getParameter("ol")));
-            ef.setOther_tree_cover(Integer.parseInt(request.getParameter("otc")));
-            ef.setInland_water_bodies(Integer.parseInt(request.getParameter("iwb")));
-            
-            efd.insert(ef);
+            efd.update(user, year, param, value);
         }
-        
     }
 
-
+    
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     }
 

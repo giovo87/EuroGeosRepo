@@ -18,12 +18,13 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.table1_4_b.servlets;
+package it.geosolutions.fao.fra.entryform.table1_4_a.servlets;
+
+import it.geosolutions.fao.fra.entryform.table1_4_a.dao.EntityForestDAO;
+import it.geosolutions.fao.fra.entryform.table1_4_a.dao.EntityForestPostgresDAO;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -32,28 +33,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.table1_4_b.dao.EntityCategoriesDAO;
-import org.table1_4_b.dao.EntityCategoriesPostgresDAO;
-import org.table1_4_b.entity.EntityCategories;
-
 /**
  * @author Gabriele Giovenco
  *
  */
 
+
 /**
  * Servlet implementation
  */
-public class CategoriesServletUser extends HttpServlet {
-        private static final long serialVersionUID = 1L;
+public class ForestServletDelete extends HttpServlet {
+    
+    /**
+     * Serialization UID.
+     */
+    private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CategoriesServletUser() {
+    public ForestServletDelete() {
         super();
     }
 
@@ -69,33 +68,19 @@ public class CategoriesServletUser extends HttpServlet {
             mp  = (Map<String, String>) request.getSession().getAttribute("map");
             String userid = mp.get(request.getSession().getAttribute("token"));
             
-            EntityCategoriesDAO efd = (EntityCategoriesDAO) new EntityCategoriesPostgresDAO();
+            response.setContentType("text/html");
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.getWriter().println("<h1>Response:</h1>");
+            response.getWriter().println("Request received correctly!");
             
-            List<EntityCategories> list = (List<EntityCategories>)efd.getDataUser(userid);
-    
-            JSONArray entities = new JSONArray();
-            JSONObject entity;
-            Iterator<EntityCategories> it = list.iterator();
-            EntityCategories e;
+            EntityForestDAO efd = (EntityForestDAO) new EntityForestPostgresDAO();
             
-            try{
-                while(it.hasNext()){
-                    e = it.next();
-                    entity = new JSONObject();
-                    entity.put("category", e.getPkCategory().getCategory());
-                    entity.put("tier_for_reported_trend", e.getTier_for_reported_trend());
-                    entity.put("tier_for_status", e.getTier_for_status());
-                    entities.put(entity);
-                }
-            }catch (JSONException jse){}
-            
-            response.setContentType("application/json");
-            response.getWriter().write(entities.toString());
-            
+            int year = Integer.parseInt(request.getParameter("year"));
+            efd.delete(userid, year);
         }
     }
-
-
+    
+    
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     }
 
