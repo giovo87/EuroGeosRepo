@@ -53,7 +53,7 @@ public class EntityForestPostgresDAO implements EntityForestDAO {
      * @param ef The Entity passed in by in order to put new information in the DB
      */
     public void insert(EntityForest ef) {
-        emf = Persistence.createEntityManagerFactory("eurogeos-unit");
+        emf = Persistence.createEntityManagerFactory("eurogeoss-unit");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.persist(ef);
@@ -67,7 +67,7 @@ public class EntityForestPostgresDAO implements EntityForestDAO {
      */
     @SuppressWarnings("unchecked")
     public List<EntityForest> getDataUser(String user) {
-        emf = Persistence.createEntityManagerFactory("eurogeos-unit");
+        emf = Persistence.createEntityManagerFactory("eurogeoss-unit");
         EntityManager em = emf.createEntityManager();
         System.out.println(user);
         Query q = em.createQuery("SELECT e FROM EntityForest e WHERE e.pkForest.userId =  ?1");
@@ -84,7 +84,7 @@ public class EntityForestPostgresDAO implements EntityForestDAO {
      * @param value The value of the parameter that must be updated
      */
     public void update(String user, int year, String param, int value) {
-        emf = Persistence.createEntityManagerFactory("eurogeos-unit");
+        emf = Persistence.createEntityManagerFactory("eurogeoss-unit");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         Query q = em.createQuery("UPDATE EntityForest e SET e." + param
@@ -103,7 +103,7 @@ public class EntityForestPostgresDAO implements EntityForestDAO {
      * @param year The year of the data that must be updated deleted
      */
     public void delete(String userid, int year) {
-        emf = Persistence.createEntityManagerFactory("eurogeos-unit");
+        emf = Persistence.createEntityManagerFactory("eurogeoss-unit");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         Query q = em.createQuery("delete from EntityForest e where e.pkForest.year = ?1 AND e.pkForest.userId= ?2");

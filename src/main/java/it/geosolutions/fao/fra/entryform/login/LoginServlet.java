@@ -76,8 +76,9 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	String user = request.getParameter("username");
         String password = request.getParameter("password");
-        System.out.println(scramble(password));
-        if(checkInDb(user, password)){
+        String pwScramble = scramble(password);
+        System.out.println("ecco lo scramble "+scramble(password));
+        if(checkInDb(user, pwScramble)){
             Cookie[] cookies = request.getCookies();
             if(cookies != null && cookies.length != 0){
                     for (int i = 0; i < cookies.length; i++){
@@ -97,7 +98,7 @@ public class LoginServlet extends HttpServlet {
             Cookie userCookie = new Cookie("session", token);
             userCookie.setMaxAge(600);
             response.addCookie(userCookie);
-            mp.put(token, retrieveUserID(user, password));
+            mp.put(token, retrieveUserID(user, pwScramble));
             request.getSession().setAttribute("map", mp);
             response.setStatus(response.SC_OK);
             return;
@@ -118,7 +119,7 @@ public class LoginServlet extends HttpServlet {
     public void init() throws ServletException {
         userDb = "postgres";
         passwdDb = "postgres";
-        urlDb = "jdbc:postgresql://localhost:5432/eurogeos";
+        urlDb = "jdbc:postgresql://localhost:5432/eurogeoss";
         try 
         {
               Class.forName("org.postgresql.Driver");
@@ -150,7 +151,11 @@ public class LoginServlet extends HttpServlet {
                 query +=       "FROM users ";
                 query +=       "WHERE username=\'"+username+"\' AND password=\'"+password+"\'";
                 ResultSet rs = statement.executeQuery(query);
-                return rs.next();
+                rs.next();
+//                System.out.println("Num of rows "+rs.getString(2));
+                if(rs.getString(2).equals(password))
+                    return true;
+                return false;
 
         }
         catch(Exception ex)
@@ -180,7 +185,7 @@ public class LoginServlet extends HttpServlet {
         }
         catch(Exception ex)
         {
-                System.out.println("Error..."+ex.getMessage());
+                System.out.println("Error2..."+ex.getMessage());
                 return null;
         }
     }
@@ -194,9 +199,12 @@ public class LoginServlet extends HttpServlet {
     public static String scramble(String text)
     {
             try {
-                    MessageDigest md = MessageDigest.getInstance("SHA-1") ;
-                    md.update(text.getBytes("UTF-8"));
-                    return getHex(md.digest());
+                MessageDigest md = MessageDigest.getInstance("SHA-1") ;
+                md.update(text.getBytes("UTF-8"));
+                StringBuffer sb = new StringBuffer();
+                for (byte b : md.digest())
+                    sb.append(Integer.toString(b & 0xFF, 16));      // #191 : here leading 0 are removed
+                return sb.toString();
             }
             catch (UnsupportedEncodingException e) { return null; }
             catch (NoSuchAlgorithmException e)     { return null; }

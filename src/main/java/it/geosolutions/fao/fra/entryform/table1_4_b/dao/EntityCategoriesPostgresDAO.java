@@ -55,7 +55,7 @@ public class EntityCategoriesPostgresDAO implements EntityCategoriesDAO{
      */
     @SuppressWarnings("unchecked")
     public List<EntityCategories> getDataUser(String user) {
-        emf = Persistence.createEntityManagerFactory("eurogeos-unit");
+        emf = Persistence.createEntityManagerFactory("eurogeoss-unit");
         EntityManager em = emf.createEntityManager();
         Query q = em.createQuery("SELECT e FROM EntityCategories e WHERE e.pkCategory.userId =  ?1");
         q.setParameter(1, user);
@@ -71,7 +71,7 @@ public class EntityCategoriesPostgresDAO implements EntityCategoriesDAO{
      * @param value The value of the parameter that must be updated
      */
     public void update(String user, String param, String category, String value) {
-        emf = Persistence.createEntityManagerFactory("eurogeos-unit");
+        emf = Persistence.createEntityManagerFactory("eurogeoss-unit");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         Query q = em.createQuery("UPDATE EntityCategories e SET e." + param + " = ?1 WHERE e.pkCategory.userId = ?2 AND e.pkCategory.category = ?3");

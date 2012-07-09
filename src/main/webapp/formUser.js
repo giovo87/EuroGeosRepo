@@ -48,6 +48,9 @@ var del;
 var grid;
 var gridCat;
 
+var table_a_panel;
+var table_b_panel;
+
 
 
 /**
@@ -223,7 +226,19 @@ Ext.onReady(function() {
 	loadTable1_4_a();
 	loadTable1_4_b();
 	
+	table_a_panel = new Ext.Panel({
+        border: false,
+        padding: 10,
+        items: [grid]
+    });
+	table_b_panel = new Ext.Panel({
+        border: false,
+        padding: 10,
+        items: [gridCat]
+    });
+	
 	var viewport = new Ext.Viewport({
+		autoScroll: true,
 		minWidth: 600,
         minHeight: 400,
         renderTo: Ext.getBody(),
@@ -234,8 +249,9 @@ Ext.onReady(function() {
             width: 200,
             minSize: 175,
             maxSize: 400,
-            items: [grid,
-                    gridCat]
+            autoScroll: true,
+            items: [table_a_panel,
+                    table_b_panel]
         },{
         	title:'Banner area',
         	region: "north",
@@ -255,8 +271,21 @@ Ext.onReady(function() {
    	         	  });
         		}
         	}]
+        },{
+            region:'south',
+            id:'southArea',
+            xtype: 'toolbar',
+        	items: [{
+        		xtype: 'button',
+        		text: 'Powered by GeoSolutions',
+        		handler: function(btn){
+   	         			   window.location.href = "http://www.geo-solutions.it/";
+   	         		   }
+        	}]
         }]
     });
+	
+	
 
 });
 
@@ -308,6 +337,7 @@ function loadTable1_4_a(){
      * Callback function called when the store is ready
      */
 	store.on('load', function() {
+		table_a_panel.remove(grid,false);
 		// ////////////////////////////////////////////////////////
 		// in this function it's necessary to "convert" the store
 		// because new data in the table means new COLUMN!!!
@@ -403,8 +433,8 @@ function loadTable1_4_a(){
 			cols[i] = col;
 		}
 		
-		if (document.getElementById('grid-div').hasChildNodes())
-			document.getElementById('grid-div').removeChild(document.getElementById('grid-div').childNodes[0]);
+//		if (document.getElementById('grid-div').hasChildNodes())
+//			document.getElementById('grid-div').removeChild(document.getElementById('grid-div').childNodes[0]);
 		
 		/**
 	     * Define the dynamic grid for table 1_4_a data
@@ -481,10 +511,9 @@ function loadTable1_4_a(){
 	            selType: 'cellmodel'
 	        },
 	        plugins: [cellEditing],
-		    height: 230,
+		    height: 250,
 		    width: 602,
-		    style: 'margin:0 auto;margin-top:100px;',
-		    renderTo: Ext.get('grid-div')
+		    style: 'margin:0 auto;'
 		    
 		});
 		
@@ -523,6 +552,9 @@ function loadTable1_4_a(){
 	         	  });
 			  }
 		});
+		
+		table_a_panel.add(grid);
+		table_a_panel.doLayout();
 	});	
 	
 }
@@ -632,10 +664,9 @@ function loadTable1_4_b(){
 	            selType: 'cellmodel'
 	        },
 	        plugins: [cellEditing1],
-		    height: 158,
+		    height: 117,
 		    width: 602,
-		    style: 'margin:0 auto;margin-top:100px;',
-		    renderTo: Ext.get('grid1_4_b-div')
+		    style: 'margin:0 auto;'
 		});
 		
 		/**
@@ -669,6 +700,8 @@ function loadTable1_4_b(){
 			    }
 			}
 		});
+		table_b_panel.add(gridCat);
+		table_b_panel.doLayout();
 	});
 }
 
