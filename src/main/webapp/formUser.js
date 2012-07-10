@@ -18,11 +18,14 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
 Ext.require([
     '*'
 ]);
 
-var user="pippo";
+
+
+var tmp1,tmp2,tmp3,tmp4,tmp5;
 
 var required = '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>';
 
@@ -50,7 +53,6 @@ var gridCat;
 
 var table_a_panel;
 var table_b_panel;
-
 
 
 /**
@@ -126,15 +128,10 @@ Ext.onReady(function() {
 	  buttons: [{
 	      text: 'Submit',
 	      handler: function(){
-	      	if(check(Ext.getCmp('year').getValue()) &&
-	      			check(Ext.getCmp('forest').getValue()) &&
-	      			check(Ext.getCmp('other_wooded_land').getValue()) &&
-	      			check(Ext.getCmp('other_land').getValue()) &&
-	      			check(Ext.getCmp('other_tree_cover').getValue()) &&
-	      			check(Ext.getCmp('inland_water_bodies').getValue())){
+	      	if(check(Ext.getCmp('year').getValue())){
 	          	Ext.Ajax.request({
-	       		   url: 'forestEnter?userid='+user+
-	       		   '&year='+Ext.getCmp('year').getValue()+
+	       		   url: 'forestEnter?'+
+	       		   'year='+Ext.getCmp('year').getValue()+
 	       		   '&forest='+Ext.getCmp('forest').getValue()+
 	       		   '&owl='+Ext.getCmp('other_wooded_land').getValue()+
 	       		   '&ol='+Ext.getCmp('other_land').getValue()+
@@ -145,17 +142,30 @@ Ext.onReady(function() {
 			     			      window.location.href = "login.html";
 		         			   }
 	       			   enter.getForm().reset();
-	       			   loadTable1_4_a(user);
+	       			   loadTable1_4_a();
+		       			new Ext.ux.Notification({
+		                    title:      'Feedback',
+		                    html:      'New data stored in database',
+		                    autoDestroy: true
+		                }).show(document);
 	       		   },
 	       		   failure: function(response, opts) {
-	       				  alert('Operation failed!');
 	       		      enter.getForm().reset();
+	       		   new Ext.ux.Notification({
+	                   title:      'Feedback',
+	                   html:      'Data not stored in database',
+	                   autoDestroy: true
+	               }).show(document);
 	       		   }
 	          	});
 	      	}
-	      	else
-	      		alert('Fields must be numbers >= 0!');
-	      		
+	      	else{
+	      		new Ext.ux.Notification({
+	                title:      'Feedback',
+	                html:      'Field year not correct',
+	                autoDestroy: true
+	            }).show(document);
+	      	}
 	      }
 	  }
 	  ,{
@@ -163,6 +173,14 @@ Ext.onReady(function() {
 	      handler: function(){
 	      	enter.getForm().reset();
 	      }
+	  },{
+		  text: 'Close',
+		  handler: function(){
+		    if (winAdd.isVisible()) {
+	            winAdd.hide(this, function() {
+	            });
+	        }
+		  }
 	  }]
 	});
 	
@@ -197,22 +215,36 @@ Ext.onReady(function() {
             handler: function(){
             	if(check(parseInt(Ext.getCmp('year-del').getValue()))){
 	            	Ext.Ajax.request({
-	         		   url: 'forestDelete?userid='+user+'&year='+Ext.getCmp('year-del').getValue(),
+	         		   url: 'forestDelete?'+'year='+Ext.getCmp('year-del').getValue(),
 	         		  success: function(response, opts) {
 	         			   if(response.responseText.indexOf("formLogin") != -1){
 		     			      window.location.href = "login.html";
 	         			   }
 	         			   del.getForm().reset();
 	         			   loadTable1_4_a();
+	         			  new Ext.ux.Notification({
+	      	                title:      'Feedback',
+	      	                html:      'Deleted from the database',
+	      	                autoDestroy: true
+	      	            }).show(document);
 	         		   },
 	         		   failure: function(response, opts) {
-	         				  alert('Operation failed!');
 	         		      enter.getForm().reset();
+	         		     new Ext.ux.Notification({
+		      	                title:      'Feedback',
+		      	                html:      'Not deleted from the database',
+		      	                autoDestroy: true
+		      	            }).show(document);
 	         		   }
 	            	});
             	}
-            	else
-            		alert('Field must be a number >= 0!');
+            	else{
+            		new Ext.ux.Notification({
+    	                title:      'Feedback',
+    	                html:      'Field year not correct',
+    	                autoDestroy: true
+    	            }).show(document);
+            	}
             }
         }
         ,{
@@ -220,7 +252,15 @@ Ext.onReady(function() {
             handler: function(){
             	del.getForm().reset();
             }
-        }]
+        },{
+		  text: 'Close',
+		  handler: function(){
+		    if (winDel.isVisible()) {
+	            winDel.hide(this, function() {
+	            });
+	        }
+		  }
+	  }]
     });
     
 	loadTable1_4_a();
@@ -237,58 +277,63 @@ Ext.onReady(function() {
         items: [gridCat]
     });
 	
-	var viewport = new Ext.Viewport({
-		autoScroll: true,
-		minWidth: 600,
-        minHeight: 400,
-        renderTo: Ext.getBody(),
-        layout:'border',
-        items:[{
-            region:'center',
-            id:'centerArea',
-            width: 200,
-            minSize: 175,
-            maxSize: 400,
-            autoScroll: true,
-            items: [table_a_panel,
-                    table_b_panel]
-        },{
-        	title:'Banner area',
-        	region: "north",
-        	xtype: 'toolbar',
-        	items: [{
-        		xtype: 'button',
-        		text: 'Logout',
-        		icon: 'logout.png',
-        		handler: function(btn){
-        			Ext.Ajax.request({
-   	         		   url: 'logout',
-   	         		   success: function(response, opts) {
-   	         			   window.location.href = "login.html";
-   	         		   },
-   	         		   failure: function(response, opts) {
-   	         			   window.location.href = "login.html";
-   	         		   }
-   	         	  });
-        		}
-        	}]
-        },{
-            region:'south',
-            id:'southArea',
-            xtype: 'toolbar',
-        	items: [{
-        		xtype: 'button',
-        		icon: 'favicon.ico',
-        		text: 'Powered by GeoSolutions',
-        		handler: function(btn){
-        			window.open('http://www.geo-solutions.it/','mywindow','width=400,height=200,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes, resizable=yes');
-//   	         			   window.location.href = "http://www.geo-solutions.it/";
-   	         		   }
-        	}]
-        }]
-    });
-	
-	
+		
+	Ext.Ajax.request({
+ 		   url: 'getUsername',
+ 		   success: function(response, opts) {
+ 			  var viewport = new Ext.Viewport({
+ 					autoScroll: true,
+ 					minWidth: 600,
+ 			        minHeight: 400,
+ 			        renderTo: Ext.getBody(),
+ 			        layout:'border',
+ 			        items:[{
+ 			            region:'center',
+ 			            id:'centerArea',
+ 			            width: 200,
+ 			            minSize: 175,
+ 			            maxSize: 400,
+ 			            autoScroll: true,
+ 			            items: [table_a_panel,
+ 			                    table_b_panel]
+ 			        },{
+ 			        	title:'Banner area',
+ 			        	region: "north",
+ 			        	xtype: 'toolbar',
+ 			        	items: [{
+ 			        		xtype: 'button',
+ 			        		text: 'Logout ' + response.responseText,
+ 			        		icon: 'logout.png',
+ 			        		handler: function(btn){
+ 			        			Ext.Ajax.request({
+ 			   	         		   url: 'logout',
+ 			   	         		   success: function(response, opts) {
+ 			   	         			   window.location.href = "login.html";
+ 			   	         		   },
+ 			   	         		   failure: function(response, opts) {
+ 			   	         			   window.location.href = "login.html";
+ 			   	         		   }
+ 			   	         	  });
+ 			        		}
+ 			        	}]
+ 			        },{
+ 			            region:'south',
+ 			            id:'southArea',
+ 			            xtype: 'toolbar',
+ 			        	items: [{
+ 			        		xtype: 'button',
+ 			        		icon: 'favicon.ico',
+ 			        		text: 'Powered by GeoSolutions',
+ 			        		handler: function(btn){
+ 			        			window.open('http://www.geo-solutions.it/','mywindow','width=400,height=200,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes, resizable=yes');
+ 			   	         	}
+ 			        	}]
+ 			        }]
+ 			    });
+ 		   },
+ 		   failure: function(response, opts) {
+ 		   }
+ 	  });
 
 });
 
@@ -305,11 +350,11 @@ function loadTable1_4_a(){
 	    extend: 'Ext.data.Model',
 	    fields: [
 	        {name: 'year',  type: 'int'},
-	        {name: 'forest',   type: 'int'},
-	        {name: 'other_wooded_land', type: 'int'},
-	        {name: 'other_land', type: 'int'},
-	        {name: 'other_tree_cover',  type: 'int'},
-	        {name: 'inland_water_bodies',   type: 'int'},
+	        {name: 'forest',   type: 'string'},
+	        {name: 'other_wooded_land', type: 'string'},
+	        {name: 'other_land', type: 'string'},
+	        {name: 'other_tree_cover',  type: 'string'},
+	        {name: 'inland_water_bodies',   type: 'string'},
 	        {name: 'userid', type: 'string'}
 	    ]
 	});
@@ -322,7 +367,7 @@ function loadTable1_4_a(){
 	    model: 'entity',
 	    proxy: {
 	        type: 'ajax',
-	        url : 'forestUser?userid='+user,
+	        url : 'forestUser',
 	        reader: {
 	            type: 'json'
 	        }
@@ -418,12 +463,12 @@ function loadTable1_4_a(){
 		var temp = 'TOTAL';
 		arr[0] = temp;
 		for(var i = 0; i < store.getCount(); i++){
-			temp = store.getAt(i).get("forest") +
-				store.getAt(i).get("other_tree_cover") +
-				store.getAt(i).get("other_land") + 
-				store.getAt(i).get("other_wooded_land") + 
-				store.getAt(i).get("inland_water_bodies");
-			arr[i+1]=temp;
+			tmp1 = store.getAt(i).get("forest") == 'n.a.' ? 0 : parseFloat(store.getAt(i).get("forest"));
+			tmp2 = store.getAt(i).get("other_tree_cover") == 'n.a.' ? 0 : parseFloat(store.getAt(i).get("other_tree_cover"));
+			tmp3 = store.getAt(i).get("other_land") == 'n.a.' ? 0 : parseFloat(store.getAt(i).get("other_land"));
+			tmp4 = store.getAt(i).get("other_wooded_land") == 'n.a.' ? 0 : parseFloat(store.getAt(i).get("other_wooded_land")); 
+			tmp5 = store.getAt(i).get("inland_water_bodies") == 'n.a.' ? 0 : parseFloat(store.getAt(i).get("inland_water_bodies"));
+			arr[i+1]=tmp1+tmp2+tmp3+tmp4+tmp5;
 		}
 		userStore.add([arr]);
 		
@@ -524,14 +569,37 @@ function loadTable1_4_a(){
 	     * Callback function called when a cell of the grid is ready
 	     */
 		grid.on('edit', function(editor, e) {
-			  if (e.rowIdx == 5 || e.value == e.originalValue || !check(e.value)) {
+			
+			  if (e.rowIdx == 5 || e.value == e.originalValue || (!check(e.value) && e.value != 'n.a.')) {
 			      e.record.data[e.field] = e.originalValue;
 			      e.record.commit();
+			      if(e.rowIdx == 5){
+			    	  new Ext.ux.Notification({
+		   	                title:      'Feedback',
+		   	                html:      'Field TOTAL is not editable.',
+		   	                autoDestroy: true
+		   	            }).show(document);
+			      }
+			      else if(e.value == e.originalValue){
+			    	  new Ext.ux.Notification({
+		   	                title:      'Feedback',
+		   	                html:      'Field not modified.',
+		   	                autoDestroy: true
+		   	            }).show(document);
+			      }
+			      else if(!check(e.value) && e.value != 'n.a.'){
+			    	  new Ext.ux.Notification({
+		   	                title:      'Feedback',
+		   	                html:      'Wrong value.',
+		   	                autoDestroy: true
+		   	            }).show(document);
+			      }
+			      
 			  }
 			  else{
 				  Ext.Ajax.request({
-	         		   url: 'forestUpdate?userid='+user+
-	         		   '&year='+e.column.text+
+	         		   url: 'forestUpdate?'+
+	         		   'year='+e.column.text+
 	         		   '&param='+e.record.data[0]+
 	         		   '&value='+e.value,
 	         		   success: function(response, opts) {
@@ -542,15 +610,30 @@ function loadTable1_4_a(){
 		     			      window.location.href = "login.html";
 	         			   }
 	         			   var rec = userStore.getAt(5);
-	         			   var value = parseInt(userStore.getAt(5).get(e.colIdx));
-	         			   value = value - parseInt(e.originalValue) + parseInt(e.value);
+	         			   var value = parseFloat(userStore.getAt(5).get(e.colIdx));
+	         			   if(e.value == 'n.a.')
+	         				   value = value - e.originalValue;
+	         			   if(e.originalValue == 'n.a.')
+	         				   value = value + parseFloat(e.value);
+	         			   if(e.value != 'n.a.' && e.originalValue != 'n.a.')
+	         				   value = value - parseFloat(e.originalValue) + parseFloat(e.value);
 	         			   rec.set(''+e.colIdx, ''+value);
 	         			   userStore.commitChanges();
+	         			  new Ext.ux.Notification({
+	         	                title:      'Feedback',
+	         	                html:      'Updated in database',
+	         	                autoDestroy: true
+	         	            }).show(document);
 	         		   },
 	         		   failure: function(response, opts) {
 	         		      e.cancel = true;
 	     			      e.record.data[e.field] = e.originalValue;
 	     			      e.record.commit();
+	     			     new Ext.ux.Notification({
+	     	                title:      'Feedback',
+	     	                html:      'Not updated in database',
+	     	                autoDestroy: true
+	     	            }).show(document);
 	         		   }
 	         	  });
 			  }
@@ -587,7 +670,7 @@ function loadTable1_4_b(){
 	    model: 'category',
 	    proxy: {
 	        type: 'ajax',
-	        url : 'categoriesUser?userid='+user,
+	        url : 'categoriesUser',
 	        reader: {
 	            type: 'json'
 	        }
@@ -634,7 +717,8 @@ function loadTable1_4_b(){
 		                store: [
 		                    ['Tier 1','Tier 1'],
 		                    ['Tier 2','Tier 2'],
-		                    ['Tier 3','Tier 3']
+		                    ['Tier 3','Tier 3'],
+		                    ['n.a.','n.a.']
 		                ],
 		                lazyRender: true,
 		                listClass: 'x-combo-list-small'
@@ -655,7 +739,8 @@ function loadTable1_4_b(){
 		                store: [
 		                    ['Tier 1','Tier 1'],
 		                    ['Tier 2','Tier 2'],
-		                    ['Tier 3','Tier 3']
+		                    ['Tier 3','Tier 3'],
+		                    ['n.a.','n.a.']
 		                ],
 		                lazyRender: true,
 		                listClass: 'x-combo-list-small'
@@ -676,28 +761,43 @@ function loadTable1_4_b(){
 	     * Callback function called when a cell of the grid is edited
 	     */
 		gridCat.on('edit', function(editor, e) {
-			if (e.value != "Tier 1" && e.value != "Tier 2" && e.value != "Tier 3") {
-				alert('Select a value contained in combobox (\"Tier 1\" or \"Tier 2\" or \"Tier 3\")');
+			
+			if (e.value != "Tier 1" && e.value != "Tier 2" && e.value != "Tier 3" && e.value != "n.a.") {
+				new Ext.ux.Notification({
+  	                title:      'Feedback',
+  	                html:      'Select a value contained in the combobox',
+  	                autoDestroy: true
+  	            }).show(document);
 			    e.record.data[e.field] = e.originalValue;
 			    e.record.commit();
 			}
 			else{
 				if(e.value != e.originalValue){
 					Ext.Ajax.request({
-		         		   url: 'categoriesUpdate?userid='+user+
-		         		   '&param='+e.column.id+
+		         		   url: 'categoriesUpdate?'+
+		         		   'param='+e.column.id+
 		         		   '&category='+e.record.data['category']+
 		         		   '&value='+e.value,
 		         		   success: function(response, opts) {
 		         			   if(response.responseText.indexOf("formLogin") != -1){
 			     			      window.location.href = "login.html";
 		         			   }
+		         			  storeCategories.commitChanges();
+		         			 new Ext.ux.Notification({
+			      	                title:      'Feedback',
+			      	                html:      'Updated in database',
+			      	                autoDestroy: true
+			      	            }).show(document);
 		         		   },
 		         		   failure: function(response, opts) {
-		         				  alert('Operation failed!');
 		         		      e.cancel = true;
 		     			      e.record.data[e.field] = e.originalValue;
 		     			      e.record.commit();
+		     			     new Ext.ux.Notification({
+			      	                title:      'Feedback',
+			      	                html:      'Not updated in database',
+			      	                autoDestroy: true
+			      	            }).show(document);
 		         		   }
 		         	});
 			    }

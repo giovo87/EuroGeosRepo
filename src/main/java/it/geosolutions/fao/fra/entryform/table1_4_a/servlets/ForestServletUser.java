@@ -90,13 +90,32 @@ public class ForestServletUser extends HttpServlet {
                 while(it.hasNext()){
                     entity = new JSONObject();
                     e = it.next();
-//                    System.out.println(e.getYear() + " " + e.getForest() + " " + e.getOther_wooded_land() + " " + e.getOther_land() + " " + e.getOther_tree_cover() + " " + e.getInland_water_bodies() + " " + e.getUserId());
                     entity.put("year", e.getPkForest().getYear());
-                    entity.put("forest", e.getForest());
-                    entity.put("other_wooded_land", e.getOther_wooded_land());
-                    entity.put("other_land", e.getOther_land());
-                    entity.put("other_tree_cover", e.getOther_tree_cover());
-                    entity.put("inland_water_bodies", e.getInland_water_bodies());
+                    if(e.getForest() != null)
+                        entity.put("forest", e.getForest());
+                    else
+                        entity.put("forest", "n.a.");
+                    
+                    if(e.getOther_wooded_land() != null)
+                        entity.put("other_wooded_land", e.getOther_wooded_land());
+                    else
+                        entity.put("other_wooded_land", "n.a.");
+                    
+                    if(e.getOther_land() != null)
+                        entity.put("other_land", e.getOther_land());
+                    else
+                        entity.put("other_land", "n.a.");
+                    
+                    if(e.getOther_tree_cover() != null)
+                        entity.put("other_tree_cover", e.getOther_tree_cover());
+                    else
+                        entity.put("other_tree_cover", "n.a.");
+                    
+                    if(e.getInland_water_bodies() != null)
+                        entity.put("inland_water_bodies", e.getInland_water_bodies());
+                    else
+                        entity.put("inland_water_bodies", "n.a.");
+                    
                     entity.put("userid", e.getPkForest().getUserId());
                     entities.put(entity);
                 }

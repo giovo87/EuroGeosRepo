@@ -47,6 +47,23 @@
 	</servlet>
 	
 	<servlet>
+		<servlet-name>getUsername</servlet-name>
+		<servlet-class>it.geosolutions.fao.fra.entryform.login.GetCurrentUser</servlet-class>
+		<init-param>
+            <param-name>userDb</param-name>
+            <param-value>postgres</param-value>
+        </init-param>
+        <init-param>
+            <param-name>passwdDb</param-name>
+            <param-value>postgres</param-value>
+        </init-param>
+        <init-param>
+            <param-name>urlDb</param-name>
+            <param-value>jdbc:postgresql://localhost:5432/eurogeoss</param-value>
+        </init-param>
+	</servlet>
+	
+	<servlet>
 		<servlet-name>login</servlet-name>
 		<servlet-class>it.geosolutions.fao.fra.entryform.login.LoginServlet</servlet-class>
 		<init-param>
@@ -133,6 +150,11 @@
 	<servlet-mapping>
 		<servlet-name>verify</servlet-name>
 		<url-pattern>/verify</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>getUsername</servlet-name>
+		<url-pattern>/getUsername</url-pattern>
 	</servlet-mapping>
 	
 	<persistence-unit-ref>

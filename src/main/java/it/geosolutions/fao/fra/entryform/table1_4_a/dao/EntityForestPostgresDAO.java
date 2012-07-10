@@ -83,7 +83,7 @@ public class EntityForestPostgresDAO implements EntityForestDAO {
      * @param param The name of the parameter that must be updated
      * @param value The value of the parameter that must be updated
      */
-    public void update(String user, int year, String param, int value) {
+    public void update(String user, Float year, String param, Float value) {
         emf = Persistence.createEntityManagerFactory("eurogeoss-unit");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
@@ -102,7 +102,7 @@ public class EntityForestPostgresDAO implements EntityForestDAO {
      * @param userid The user id of the user that want delete data in the database
      * @param year The year of the data that must be updated deleted
      */
-    public void delete(String userid, int year) {
+    public void delete(String userid, Float year) {
         emf = Persistence.createEntityManagerFactory("eurogeoss-unit");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();

@@ -36,7 +36,7 @@ import java.util.List;
  */
 public interface EntityForestDAO {
     public void insert(EntityForest ef);
-    public void update(String user, int year, String param, int value);
-    public void delete(String userid, int year);
+    public void update(String user, Float year, String param, Float value);
+    public void delete(String userid, Float year);
     public List<EntityForest> getDataUser(String user);
 }

@@ -25,10 +25,10 @@ Ext.require([
 Ext.onReady(function() {
     Ext.QuickTips.init();
 
-    var bd = Ext.getBody();
-
     var required = '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>';
 
+    
+    
     var simple = Ext.widget({
         xtype: 'form',
         layout: 'form',
@@ -66,15 +66,24 @@ Ext.onReady(function() {
 	         		   url: 'login?username='+Ext.getCmp('username').getValue()+
 	         		   '&password='+Ext.getCmp('password').getValue(),
 	         		   success: function(response, opts) {
-	         			   if(response.status == 200)
-	         				   alert("Login phase finish successfully! You will be redirected to your page");
+	         			   if(response.status == 200){
+	         				  new Ext.ux.Notification({
+			      	                title:      'Feedback',
+			      	                html:      'Login success for username' + Ext.getCmp('username').getValue(),
+			      	                autoDestroy: true
+			      	            }).show(document);
 	         			   	   window.location.href = "entryForm.html";
+	         			   }
 	         		   },
 	         		   failure: function(response, opts) {
 	         			   if(response.status == 401){
-	         				   alert("Failure with code "+response.status+" username and password not present in DB");
 	         				  simple.getForm().reset();
 	         			   }
+	         			  new Ext.ux.Notification({
+		      	                title:      'Feedback',
+		      	                html:      'Username and password not present in database',
+		      	                autoDestroy: true
+		      	            }).show(document);
 	         		   }
 	            });
             }

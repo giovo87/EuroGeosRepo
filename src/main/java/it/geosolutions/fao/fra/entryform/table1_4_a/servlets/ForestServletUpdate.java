@@ -75,9 +75,19 @@ public class ForestServletUpdate extends HttpServlet {
             EntityForestDAO efd = (EntityForestDAO) new EntityForestPostgresDAO();
             
             String user = userid;
-            int year = Integer.parseInt(request.getParameter("year"));
             String param = request.getParameter("param");
-            int value = Integer.parseInt(request.getParameter("value"));
+            
+            Float year;
+            Float value;
+            
+            if(!request.getParameter("year").equals(""))
+                year = Float.parseFloat(request.getParameter("year"));
+            else
+                year = null;
+            if(!request.getParameter("value").equals("n.a."))
+                value = Float.parseFloat(request.getParameter("value"));
+            else
+                value = null;
             
             efd.update(user, year, param, value);
         }

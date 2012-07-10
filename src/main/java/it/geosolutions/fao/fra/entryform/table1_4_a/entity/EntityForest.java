@@ -46,96 +46,100 @@ public class EntityForest implements Serializable{
     public PkForest getPkForest(){
         return pkForest;
     }
+    
+    /**
+     * @param pkForest the composite pk to set
+     */
     public void setPkForest(PkForest pkForest){
         this.pkForest = pkForest;
     }
     
     
     @Column(name="forest")
-    private int forest;
+    private Float forest;
     
     /**
      * @return the forest
      */
-    public int getForest() {
+    public Float getForest() {
             return forest;
     }
 
     /**
      * @param forest the forest to set
      */
-    public void setForest(int forest) {
+    public void setForest(Float forest) {
             this.forest = forest;
     }
     
     
     @Column(name="other_wooded_land")
-    private int other_wooded_land;
+    private Float other_wooded_land;
     
     /**
      * @return the other_wooded_land
      */
-    public int getOther_wooded_land() {
+    public Float getOther_wooded_land() {
             return other_wooded_land;
     }
 
     /**
      * @param other_wooded_land the other_wooded_land to set
      */
-    public void setOther_wooded_land(int other_wooded_land) {
+    public void setOther_wooded_land(Float other_wooded_land) {
             this.other_wooded_land = other_wooded_land;
     }
     
     
     @Column(name="other_land")
-    private int other_land;
+    private Float other_land;
     
     /**
      * @return the other_land
      */
-    public int getOther_land() {
+    public Float getOther_land() {
             return other_land;
     }
 
     /**
      * @param other_land the other_land to set
      */
-    public void setOther_land(int other_land) {
+    public void setOther_land(Float other_land) {
             this.other_land = other_land;
     }
     
     
     @Column(name="other_tree_cover")
-    private int other_tree_cover;
+    private Float other_tree_cover;
     
     /**
      * @return the other_tree_cover
      */
-    public int getOther_tree_cover() {
+    public Float getOther_tree_cover() {
             return other_tree_cover;
     }
 
     /**
      * @param other_tree_cover the other_tree_cover
      */
-    public void setOther_tree_cover(int other_tree_cover) {
+    public void setOther_tree_cover(Float other_tree_cover) {
             this.other_tree_cover = other_tree_cover;
     }
     
     @Column(name="inland_water_bodies")
-    private int inland_water_bodies;
+    private Float inland_water_bodies;
     
     /**
      * @return the inland_water_bodies
      */
-    public int getInland_water_bodies() {
+    public Float getInland_water_bodies() {
             return inland_water_bodies;
     }
 
     /**
      * @param inland_water_bodies the inland_water_bodies
      */
-    public void setInland_water_bodies(int inland_water_bodies) {
+    public void setInland_water_bodies(Float inland_water_bodies) {
             this.inland_water_bodies = inland_water_bodies;
     }
     

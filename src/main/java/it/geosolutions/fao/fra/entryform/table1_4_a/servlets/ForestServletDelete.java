@@ -75,7 +75,7 @@ public class ForestServletDelete extends HttpServlet {
             
             EntityForestDAO efd = (EntityForestDAO) new EntityForestPostgresDAO();
             
-            int year = Integer.parseInt(request.getParameter("year"));
+            Float year = Float.parseFloat(request.getParameter("year"));
             efd.delete(userid, year);
         }
     }

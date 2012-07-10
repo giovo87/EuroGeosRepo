@@ -77,16 +77,28 @@ public class ForestServletEnter extends HttpServlet {
             
             EntityForest ef = new EntityForest();
             
-            PkForest pk = new PkForest(userid, Integer.parseInt(request.getParameter("year")));
+            PkForest pk = new PkForest(userid, Float.parseFloat(request.getParameter("year")));
             ef.setPkForest(pk);
-//            ef.setUserId(userid);
-//            ef.setYear(Integer.parseInt(request.getParameter("year")));
-            ef.setForest(Integer.parseInt(request.getParameter("forest")));
-            ef.setOther_wooded_land(Integer.parseInt(request.getParameter("owl")));
-            ef.setOther_land(Integer.parseInt(request.getParameter("ol")));
-            ef.setOther_tree_cover(Integer.parseInt(request.getParameter("otc")));
-            ef.setInland_water_bodies(Integer.parseInt(request.getParameter("iwb")));
-            
+            if(!request.getParameter("forest").equals(""))
+                ef.setForest(Float.parseFloat(request.getParameter("forest")));
+            else
+                ef.setForest(null);
+            if(!request.getParameter("owl").equals(""))
+                ef.setOther_wooded_land(Float.parseFloat(request.getParameter("owl")));
+            else
+                ef.setOther_wooded_land(null);
+            if(!request.getParameter("ol").equals(""))
+                ef.setOther_land(Float.parseFloat(request.getParameter("ol")));
+            else
+                ef.setOther_land(null);
+            if(!request.getParameter("otc").equals(""))
+                ef.setOther_tree_cover(Float.parseFloat(request.getParameter("otc")));
+            else
+                ef.setOther_tree_cover(null);
+            if(!request.getParameter("iwb").equals(""))
+                ef.setInland_water_bodies(Float.parseFloat(request.getParameter("iwb")));
+            else
+                ef.setInland_water_bodies(null);
             efd.insert(ef);
         }
         
