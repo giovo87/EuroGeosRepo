@@ -163,7 +163,7 @@ Ext.onReady(function() {
 	      handler: function(){
 	      	enter.getForm().reset();
 	      }
-	  }],
+	  }]
 	});
 	
 	/**
@@ -220,7 +220,7 @@ Ext.onReady(function() {
             handler: function(){
             	del.getForm().reset();
             }
-        }],
+        }]
     });
     
 	loadTable1_4_a();
@@ -259,6 +259,7 @@ Ext.onReady(function() {
         	items: [{
         		xtype: 'button',
         		text: 'Logout',
+        		icon: 'logout.png',
         		handler: function(btn){
         			Ext.Ajax.request({
    	         		   url: 'logout',
@@ -277,9 +278,11 @@ Ext.onReady(function() {
             xtype: 'toolbar',
         	items: [{
         		xtype: 'button',
+        		icon: 'favicon.ico',
         		text: 'Powered by GeoSolutions',
         		handler: function(btn){
-   	         			   window.location.href = "http://www.geo-solutions.it/";
+        			window.open('http://www.geo-solutions.it/','mywindow','width=400,height=200,toolbar=yes,location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes, resizable=yes');
+//   	         			   window.location.href = "http://www.geo-solutions.it/";
    	         		   }
         	}]
         }]
@@ -369,7 +372,7 @@ function loadTable1_4_a(){
 	     */
 		var userStore = new Ext.data.Store({
 			storeId:'userStore',
-		    model: 'userModel',
+		    model: 'userModel'
 		});
 		
 		// ///////////////////////////////////////////////////////////////////////

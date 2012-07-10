@@ -77,7 +77,7 @@ public class LoginServlet extends HttpServlet {
     	String user = request.getParameter("username");
         String password = request.getParameter("password");
         String pwScramble = scramble(password);
-        System.out.println("ecco lo scramble "+scramble(password));
+        System.out.println("This is the scramble "+scramble(password));
         if(checkInDb(user, pwScramble)){
             Cookie[] cookies = request.getCookies();
             if(cookies != null && cookies.length != 0){
@@ -117,9 +117,9 @@ public class LoginServlet extends HttpServlet {
      * 
      */
     public void init() throws ServletException {
-        userDb = "postgres";
-        passwdDb = "postgres";
-        urlDb = "jdbc:postgresql://localhost:5432/eurogeoss";
+        userDb = getServletConfig().getInitParameter("userDb");
+        passwdDb = getServletConfig().getInitParameter("passwdDb");
+        urlDb = getServletConfig().getInitParameter("urlDb");
         try 
         {
               Class.forName("org.postgresql.Driver");

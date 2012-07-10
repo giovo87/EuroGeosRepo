@@ -32,7 +32,6 @@ Ext.onReady(function() {
     var simple = Ext.widget({
         xtype: 'form',
         layout: 'form',
-        collapsible: true,
         id: 'login',
         url: 'login',
         frame: true,
