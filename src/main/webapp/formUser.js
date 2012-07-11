@@ -143,28 +143,34 @@ Ext.onReady(function() {
 		         			   }
 	       			   enter.getForm().reset();
 	       			   loadTable1_4_a();
-		       			new Ext.ux.Notification({
-		                    title:      'Feedback',
-		                    html:      'New data stored in database',
-		                    autoDestroy: true
-		                }).show(document);
+	       			   if (!Ext.isIE7 && !Ext.isIE8) {
+			       			new Ext.ux.Notification({
+			                    title:      'Feedback',
+			                    html:      'New data stored in database',
+			                    autoDestroy: true
+			                }).show(document);
+	       			   }
 	       		   },
 	       		   failure: function(response, opts) {
 	       		      enter.getForm().reset();
-	       		   new Ext.ux.Notification({
-	                   title:      'Feedback',
-	                   html:      'Data not stored in database',
-	                   autoDestroy: true
-	               }).show(document);
+	       		      if (!Ext.isIE7 && !Ext.isIE8) {
+			       		   new Ext.ux.Notification({
+			                   title:      'Feedback',
+			                   html:      'Data not stored in database',
+			                   autoDestroy: true
+			               }).show(document);
+	       		      }
 	       		   }
 	          	});
 	      	}
 	      	else{
-	      		new Ext.ux.Notification({
-	                title:      'Feedback',
-	                html:      'Field year not correct',
-	                autoDestroy: true
-	            }).show(document);
+	      		if (!Ext.isIE7 && !Ext.isIE8) {
+		      		new Ext.ux.Notification({
+		                title:      'Feedback',
+		                html:      'Field year not correct',
+		                autoDestroy: true
+		            }).show(document);
+	      		}
 	      	}
 	      }
 	  }
@@ -222,28 +228,34 @@ Ext.onReady(function() {
 	         			   }
 	         			   del.getForm().reset();
 	         			   loadTable1_4_a();
-	         			  new Ext.ux.Notification({
-	      	                title:      'Feedback',
-	      	                html:      'Deleted from the database',
-	      	                autoDestroy: true
-	      	            }).show(document);
+	         			  if (!Ext.isIE7 && !Ext.isIE8) {
+		         			  new Ext.ux.Notification({
+		      	                title:      'Feedback',
+		      	                html:      'Deleted from the database',
+		      	                autoDestroy: true
+		      	            }).show(document);
+	         			  }
 	         		   },
 	         		   failure: function(response, opts) {
 	         		      enter.getForm().reset();
-	         		     new Ext.ux.Notification({
-		      	                title:      'Feedback',
-		      	                html:      'Not deleted from the database',
-		      	                autoDestroy: true
-		      	            }).show(document);
+	         		     if (!Ext.isIE7 && !Ext.isIE8) {
+		         		     new Ext.ux.Notification({
+			      	                title:      'Feedback',
+			      	                html:      'Not deleted from the database',
+			      	                autoDestroy: true
+			      	            }).show(document);
+	         		     }
 	         		   }
 	            	});
             	}
             	else{
-            		new Ext.ux.Notification({
-    	                title:      'Feedback',
-    	                html:      'Field year not correct',
-    	                autoDestroy: true
-    	            }).show(document);
+            		if (!Ext.isIE7 && !Ext.isIE8) {
+	            		new Ext.ux.Notification({
+	    	                title:      'Feedback',
+	    	                html:      'Field year not correct',
+	    	                autoDestroy: true
+	    	            }).show(document);
+            		}
             	}
             }
         }
@@ -549,7 +561,7 @@ function loadTable1_4_a(){
 			            }
 			       }
 			     ],
-		    title: 'User data',
+		    title: 'User data (put \"n.a.\" if you want a null value in db)',
 		    store: userStore,
 		    columns: [
 				{ text:'FRA 2015 categories', dataIndex: '0', width: 110, sortable : false, menuDisabled:true},
@@ -574,25 +586,31 @@ function loadTable1_4_a(){
 			      e.record.data[e.field] = e.originalValue;
 			      e.record.commit();
 			      if(e.rowIdx == 5){
-			    	  new Ext.ux.Notification({
-		   	                title:      'Feedback',
-		   	                html:      'Field TOTAL is not editable.',
-		   	                autoDestroy: true
-		   	            }).show(document);
+			    	  if (!Ext.isIE7 && !Ext.isIE8) {
+				    	  new Ext.ux.Notification({
+			   	                title:      'Feedback',
+			   	                html:      'Field TOTAL is not editable.',
+			   	                autoDestroy: true
+			   	            }).show(document);
+			    	  }
 			      }
 			      else if(e.value == e.originalValue){
-			    	  new Ext.ux.Notification({
-		   	                title:      'Feedback',
-		   	                html:      'Field not modified.',
-		   	                autoDestroy: true
-		   	            }).show(document);
+			    	  if (!Ext.isIE7 && !Ext.isIE8) {
+				    	  new Ext.ux.Notification({
+			   	                title:      'Feedback',
+			   	                html:      'Field not modified.',
+			   	                autoDestroy: true
+			   	            }).show(document);
+			    	  }
 			      }
 			      else if(!check(e.value) && e.value != 'n.a.'){
-			    	  new Ext.ux.Notification({
-		   	                title:      'Feedback',
-		   	                html:      'Wrong value.',
-		   	                autoDestroy: true
-		   	            }).show(document);
+			    	  if (!Ext.isIE7 && !Ext.isIE8) {
+				    	  new Ext.ux.Notification({
+			   	                title:      'Feedback',
+			   	                html:      'Wrong value.',
+			   	                autoDestroy: true
+			   	            }).show(document);
+			    	  }
 			      }
 			      
 			  }
@@ -619,21 +637,25 @@ function loadTable1_4_a(){
 	         				   value = value - parseFloat(e.originalValue) + parseFloat(e.value);
 	         			   rec.set(''+e.colIdx, ''+value);
 	         			   userStore.commitChanges();
-	         			  new Ext.ux.Notification({
-	         	                title:      'Feedback',
-	         	                html:      'Updated in database',
-	         	                autoDestroy: true
-	         	            }).show(document);
+	         			  if (!Ext.isIE7 && !Ext.isIE8) {
+		         			  new Ext.ux.Notification({
+		         	                title:      'Feedback',
+		         	                html:      'Updated in database',
+		         	                autoDestroy: true
+		         	            }).show(document);
+	         			  }
 	         		   },
 	         		   failure: function(response, opts) {
 	         		      e.cancel = true;
 	     			      e.record.data[e.field] = e.originalValue;
 	     			      e.record.commit();
-	     			     new Ext.ux.Notification({
-	     	                title:      'Feedback',
-	     	                html:      'Not updated in database',
-	     	                autoDestroy: true
-	     	            }).show(document);
+	     			     if (!Ext.isIE7 && !Ext.isIE8) {
+		     			     new Ext.ux.Notification({
+		     	                title:      'Feedback',
+		     	                html:      'Not updated in database',
+		     	                autoDestroy: true
+		     	            }).show(document);
+	     			     }
 	         		   }
 	         	  });
 			  }
@@ -763,11 +785,13 @@ function loadTable1_4_b(){
 		gridCat.on('edit', function(editor, e) {
 			
 			if (e.value != "Tier 1" && e.value != "Tier 2" && e.value != "Tier 3" && e.value != "n.a.") {
-				new Ext.ux.Notification({
-  	                title:      'Feedback',
-  	                html:      'Select a value contained in the combobox',
-  	                autoDestroy: true
-  	            }).show(document);
+				if (!Ext.isIE7 && !Ext.isIE8) {
+					new Ext.ux.Notification({
+	  	                title:      'Feedback',
+	  	                html:      'Select a value contained in the combobox',
+	  	                autoDestroy: true
+	  	            }).show(document);
+				}
 			    e.record.data[e.field] = e.originalValue;
 			    e.record.commit();
 			}
@@ -783,21 +807,25 @@ function loadTable1_4_b(){
 			     			      window.location.href = "login.html";
 		         			   }
 		         			  storeCategories.commitChanges();
-		         			 new Ext.ux.Notification({
-			      	                title:      'Feedback',
-			      	                html:      'Updated in database',
-			      	                autoDestroy: true
-			      	            }).show(document);
+		         			 if (!Ext.isIE7 && !Ext.isIE8) {
+			         			 new Ext.ux.Notification({
+				      	                title:      'Feedback',
+				      	                html:      'Updated in database',
+				      	                autoDestroy: true
+				      	            }).show(document);
+		         			 }
 		         		   },
 		         		   failure: function(response, opts) {
 		         		      e.cancel = true;
 		     			      e.record.data[e.field] = e.originalValue;
 		     			      e.record.commit();
-		     			     new Ext.ux.Notification({
-			      	                title:      'Feedback',
-			      	                html:      'Not updated in database',
-			      	                autoDestroy: true
-			      	            }).show(document);
+		     			     if (!Ext.isIE7 && !Ext.isIE8) {
+			     			     new Ext.ux.Notification({
+				      	                title:      'Feedback',
+				      	                html:      'Not updated in database',
+				      	                autoDestroy: true
+				      	            }).show(document);
+		     			     }
 		         		   }
 		         	});
 			    }

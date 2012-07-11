@@ -1,18 +1,18 @@
-<Configure id="Server" class="org.eclipse.jetty.server.Server">
-<New id="DSTest" class="org.eclipse.jetty.plus.jndi.Resource">
-     <Arg></Arg>
-     <Arg>jdbc/DSTest</Arg>
-     <Arg>
-        <New class="org.postgresql.ds.PGConnectionPoolDataSource">
-           <Set name="User">postgres</Set>
-           <Set name="Password"></Set>
-           <Set name="DatabaseName">prova</Set>
-           <Set name="ServerName">localhost</Set>
-           <Set name="PortNumber">5432</Set>
-        </New>
-     </Arg>
-  </New>
-</Configure>
+<!-- <Configure id="Server" class="org.eclipse.jetty.server.Server"> -->
+<!-- <New id="DSTest" class="org.eclipse.jetty.plus.jndi.Resource"> -->
+<!--      <Arg></Arg> -->
+<!--      <Arg>jdbc/DSTest</Arg> -->
+<!--      <Arg> -->
+<!--         <New class="org.postgresql.ds.PGConnectionPoolDataSource"> -->
+<!--            <Set name="User">postgres</Set> -->
+<!--            <Set name="Password"></Set> -->
+<!--            <Set name="DatabaseName">prova</Set> -->
+<!--            <Set name="ServerName">localhost</Set> -->
+<!--            <Set name="PortNumber">5432</Set> -->
+<!--         </New> -->
+<!--      </Arg> -->
+<!--   </New> -->
+<!-- </Configure> -->
 
 
 

@@ -35,7 +35,7 @@ Ext.onReady(function() {
         id: 'login',
         url: 'login',
         frame: true,
-        title: 'Retrieve data user',
+        title: 'Login form',
         bodyPadding: '15 15 10',
         width: 350,
         fieldDefaults: {
@@ -67,23 +67,27 @@ Ext.onReady(function() {
 	         		   '&password='+Ext.getCmp('password').getValue(),
 	         		   success: function(response, opts) {
 	         			   if(response.status == 200){
-	         				  new Ext.ux.Notification({
-			      	                title:      'Feedback',
-			      	                html:      'Login success for username' + Ext.getCmp('username').getValue(),
-			      	                autoDestroy: true
-			      	            }).show(document);
-	         			   	   window.location.href = "entryForm.html";
+	         				  if (!Ext.isIE7 && !Ext.isIE8) {
+		         				  new Ext.ux.Notification({
+				      	                title:      'Feedback',
+				      	                html:      'Login success for username' + Ext.getCmp('username').getValue(),
+				      	                autoDestroy: true
+				      	            }).show(document);
+	         				  }
+	         			   	  window.location.href = "entryForm.html";
 	         			   }
 	         		   },
 	         		   failure: function(response, opts) {
 	         			   if(response.status == 401){
 	         				  simple.getForm().reset();
 	         			   }
+	         			  if (!Ext.isIE7 && !Ext.isIE8) {
 	         			  new Ext.ux.Notification({
 		      	                title:      'Feedback',
 		      	                html:      'Username and password not present in database',
 		      	                autoDestroy: true
 		      	            }).show(document);
+	         			  }
 	         		   }
 	            });
             }

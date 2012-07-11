@@ -80,6 +80,40 @@
         </init-param>
 	</servlet>
 	
+<!-- 	<servlet> -->
+<!-- 		<servlet-name>getUsername</servlet-name> -->
+<!-- 		<servlet-class>it.geosolutions.fao.fra.entryform.login.GetCurrentUser</servlet-class> -->
+<!-- 		<init-param> -->
+<!--             <param-name>userDb</param-name> -->
+<!--             <param-value>entryform</param-value> -->                 <!-- Uncomment all for test on server -->
+<!--         </init-param> -->
+<!--         <init-param> -->
+<!--             <param-name>passwdDb</param-name> -->
+<!--             <param-value>entry30form3</param-value> -->
+<!--         </init-param> -->
+<!--         <init-param> -->
+<!--             <param-name>urlDb</param-name> -->
+<!--             <param-value>jdbc:postgresql://localhost:5432/eurogeoss</param-value> -->
+<!--         </init-param> -->
+<!-- 	</servlet> -->
+	
+<!-- 	<servlet> -->
+<!-- 		<servlet-name>login</servlet-name> -->
+<!-- 		<servlet-class>it.geosolutions.fao.fra.entryform.login.LoginServlet</servlet-class> -->
+<!-- 		<init-param> -->
+<!--             <param-name>userDb</param-name> -->
+<!--             <param-value>entryform</param-value> -->
+<!--         </init-param> -->
+<!--         <init-param> -->
+<!--             <param-name>passwdDb</param-name> -->
+<!--             <param-value>entry30form3</param-value> -->
+<!--         </init-param> -->
+<!--         <init-param> -->
+<!--             <param-name>urlDb</param-name> -->
+<!--             <param-value>jdbc:postgresql://localhost:5432/eurogeoss</param-value> -->
+<!--         </init-param> -->
+<!-- 	</servlet> -->
+	
 	<servlet>
 		<servlet-name>verify</servlet-name>
 		<servlet-class>it.geosolutions.fao.fra.entryform.login.VerifyLogged</servlet-class>
